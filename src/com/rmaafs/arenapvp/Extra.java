@@ -1,17 +1,16 @@
 package com.rmaafs.arenapvp;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.rmaafs.arenapvp.GUIS.GuiEvent;
@@ -30,29 +29,48 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import static java.util.logging.Level.SEVERE;
+
 public class Extra {
 
-    public static File config, lang, spawns, stats, scoreboards, ranks, cache;
-    public static FileConfiguration cconfig, clang, cspawns, cstats, cscoreboards, cranks, ccache;
+    public static File config;
+    public static File lang;
+    public static File spawns;
+    public static File stats;
+    public static File scoreboards;
+    public static File ranks;
+    public static File cache;
+    public static FileConfiguration cconfig;
+    public static FileConfiguration clang;
+    public static FileConfiguration cspawns;
+    public static FileConfiguration cstats;
+    public static FileConfiguration cscoreboards;
+    public static FileConfiguration cranks;
+    public static FileConfiguration ccache;
 
     public static HashMap<Player, PlayerConfig> playerConfig = new HashMap<>();
-
     public static HashMap<String, Kit> kits = new HashMap<>();
     public static HashMap<Kit, List<Mapa>> mapLibres = new HashMap<>();
     public static HashMap<Kit, List<Mapa>> mapOcupadas = new HashMap<>();
     public static HashMap<Kit, List<MapaMeetup>> mapMeetupLibres = new HashMap<>();
     public static HashMap<Kit, List<MapaMeetup>> mapMeetupOcupadas = new HashMap<>();
+<<<<<<< Updated upstream
 
     public static HashMap<Player, Partida> jugandoUno = new HashMap<>();
 
     public static List<Partida> preEmpezandoUno = new ArrayList<>();
 
     public static HashMap<Player, Score> scores = new HashMap<>();
+=======
+    public static HashMap<Player, Game> jugandoUno = new HashMap<>();
+    public static HashMap<Player, Score> scores = new HashMap<>();
+
+    public static List<Game> preEmpezandoUno = new ArrayList<>();
+>>>>>>> Stashed changes
     public static List<Rangos> rangos = new ArrayList<>();
+
     public static Rangos rangoDefault;
-
     public static String nopermission;
-
     public static boolean regenRankedsUnrankeds = false;
 
     public static void setFiles() {
@@ -70,15 +88,12 @@ public class Extra {
         cranks = YamlConfiguration.loadConfiguration(ranks);
         cache = Main.plugin.getcCache();
         ccache = YamlConfiguration.loadConfiguration(cache);
-
         nopermission = tc(clang.getString("nopermission"));
-
         for (String path : cranks.getConfigurationSection("").getKeys(false)) {
             if (cranks.contains(path + ".name") && cranks.contains(path + ".elo")) {
                 rangos.add(new Rangos(tc(cranks.getString(path + ".name")), cranks.getInt(path + ".elo")));
             }
         }
-
         detectNextDay();
     }
 
@@ -123,14 +138,14 @@ public class Extra {
                 ccache.set("day", s);
                 ccache.set("players", null);
                 ccache.set("gift", null);
-                guardar(cache, ccache);
+                save(cache, ccache);
             }
         } else {
             regenRankedsUnrankeds = true;
             ccache.set("day", s);
             ccache.set("players", null);
             ccache.set("gift", null);
-            guardar(cache, ccache);
+            save(cache, ccache);
         }
     }
 
@@ -143,12 +158,12 @@ public class Extra {
             } else {
                 players.add(p.getName());
                 ccache.set("players", players);
-                guardar(cache, ccache);
+                save(cache, ccache);
             }
         } else {
             players.add(p.getName());
             ccache.set("players", players);
-            guardar(cache, ccache);
+            save(cache, ccache);
         }
         return true;
     }
@@ -162,12 +177,12 @@ public class Extra {
             } else {
                 players.add(p.getName());
                 ccache.set("gift", players);
-                guardar(cache, ccache);
+                save(cache, ccache);
             }
         } else {
             players.add(p.getName());
             ccache.set("gift", players);
-            guardar(cache, ccache);
+            save(cache, ccache);
         }
         return true;
     }
@@ -177,7 +192,7 @@ public class Extra {
         ccache.set("day", new SimpleDateFormat("dd").format(new Date()));
         ccache.set("players", null);
         ccache.set("gift", null);
-        guardar(cache, ccache);
+        save(cache, ccache);
     }
 
     public static boolean isExist(Player checar, Player online) {
@@ -189,37 +204,34 @@ public class Extra {
     }
 
     public static boolean isPlaying(Player p) {
-        if (jugandoUno.containsKey(p)
-                || Main.duelControl.esperandoRanked.containsValue(p)
-                || Main.duelControl.esperandoUnRanked.containsValue(p)
-                || CrearKitEvent.creandoKit.containsKey(p)
-                || CrearKitEvent.editandoKit.containsKey(p)
-                || CrearKitEvent.esperandoEditandoKit.contains(p)
-                || GuiEvent.esperandoEliminarKit.contains(p)
-                || CrearMapaEvent.creandoMapa.containsKey(p)
-                || Main.meetupControl.meetupsPlaying.containsKey(p)
-                || Main.meetupControl.creandoEventoMeetup.containsKey(p)
-                || Main.meetupControl.creandoMapaMeetup.containsKey(p)
-                || Main.meetupControl.esperandoCrearEvento.contains(p)
-                || Main.meetupControl.esperandoMapaMeetup.contains(p)
-                || Main.hotbars.editingSlotHotbar.containsKey(p)
-                || Main.hotbars.editingSlotHotbar.containsKey(p)
-                || Main.hotbars.esperandoEscojaHotbar.contains(p)
-                || Main.partyControl.partys.containsKey(p)
-                || !Main.extraLang.worlds.contains(p.getWorld().getName())
-                || Main.specControl.mirando.containsKey(p)) {
-            return false;
-        }
-        return true;
+        return !jugandoUno.containsKey(p)
+                && !Main.duelControl.esperandoRanked.containsValue(p)
+                && !Main.duelControl.esperandoUnRanked.containsValue(p)
+                && !CrearKitEvent.creatingKit.containsKey(p)
+                && !CrearKitEvent.editingKit.containsKey(p)
+                && !CrearKitEvent.waitingEditKit.contains(p)
+                && !GuiEvent.esperandoEliminarKit.contains(p)
+                && !CrearMapaEvent.creandoMapa.containsKey(p)
+                && !Main.meetupControl.meetupsPlaying.containsKey(p)
+                && !Main.meetupControl.creandoEventoMeetup.containsKey(p)
+                && !Main.meetupControl.creandoMapaMeetup.containsKey(p)
+                && !Main.meetupControl.esperandoCrearEvento.contains(p)
+                && !Main.meetupControl.esperandoMapaMeetup.contains(p)
+                && !Main.hotbars.editingSlotHotbar.containsKey(p)
+                && !Main.hotbars.editingSlotHotbar.containsKey(p)
+                && !Main.hotbars.esperandoEscojaHotbar.contains(p)
+                && !Main.partyControl.partys.containsKey(p)
+                && Main.extraLang.worlds.contains(p.getWorld().getName())
+                && !Main.specControl.mirando.containsKey(p);
     }
 
     public static boolean isCheckPlayerPlaying(Player p, Player mensaje) {
         if (jugandoUno.containsKey(p)
                 || Main.duelControl.esperandoRanked.containsValue(p)
                 || Main.duelControl.esperandoUnRanked.containsValue(p)
-                || CrearKitEvent.creandoKit.containsKey(p)
-                || CrearKitEvent.editandoKit.containsKey(p)
-                || CrearKitEvent.esperandoEditandoKit.contains(p)
+                || CrearKitEvent.creatingKit.containsKey(p)
+                || CrearKitEvent.editingKit.containsKey(p)
+                || CrearKitEvent.waitingEditKit.contains(p)
                 || GuiEvent.esperandoEliminarKit.contains(p)
                 || CrearMapaEvent.creandoMapa.containsKey(p)
                 || Main.meetupControl.meetupsPlaying.containsKey(p)
@@ -251,9 +263,9 @@ public class Extra {
         if (jugandoUno.containsKey(p)
                 || Main.duelControl.esperandoRanked.containsValue(p)
                 || Main.duelControl.esperandoUnRanked.containsValue(p)
-                || CrearKitEvent.creandoKit.containsKey(p)
-                || CrearKitEvent.editandoKit.containsKey(p)
-                || CrearKitEvent.esperandoEditandoKit.contains(p)
+                || CrearKitEvent.creatingKit.containsKey(p)
+                || CrearKitEvent.editingKit.containsKey(p)
+                || CrearKitEvent.waitingEditKit.contains(p)
                 || GuiEvent.esperandoEliminarKit.contains(p)
                 || CrearMapaEvent.creandoMapa.containsKey(p)
                 || Main.meetupControl.meetupsPlaying.containsKey(p)
@@ -276,28 +288,15 @@ public class Extra {
         return true;
     }
 
-    public static void sacar(Player p) {
-
-        SQL.guardarStats(p, true);
-
+    public static void remove(Player p) {
+        SQL.saveStats(p, true);
         Main.specControl.leave(p, false);
+        CrearKitEvent.creatingKit.remove(p);
+        CrearKitEvent.editingKit.remove(p);
+        CrearKitEvent.waitingEditKit.remove(p);
+        GuiEvent.esperandoEliminarKit.remove(p);
 
-        if (CrearKitEvent.creandoKit.containsKey(p)) {
-            CrearKitEvent.creandoKit.remove(p);
-        }
-        if (CrearKitEvent.editandoKit.containsKey(p)) {
-            CrearKitEvent.editandoKit.remove(p);
-        }
-        if (CrearKitEvent.esperandoEditandoKit.contains(p)) {
-            CrearKitEvent.esperandoEditandoKit.remove(p);
-        }
-        if (GuiEvent.esperandoEliminarKit.contains(p)) {
-            GuiEvent.esperandoEliminarKit.remove(p);
-        }
-
-        if (CrearMapaEvent.creandoMapa.containsKey(p)) {
-            CrearMapaEvent.creandoMapa.remove(p);
-        }
+        CrearMapaEvent.creandoMapa.remove(p);
 
         if (jugandoUno.containsKey(p)) {
             jugandoUno.get(p).finish(p);
@@ -330,22 +329,27 @@ public class Extra {
         return m;
     }
 
-    public static boolean checkMapAvailables(Kit kit) {
-        if (mapLibres.get(kit) == null || !mapLibres.containsKey(kit) || mapLibres.get(kit).isEmpty()) {
-            return false;
-        }
-        return true;
+    public static boolean checkAvailableMaps(Kit kit) {
+        return mapLibres.containsKey(kit) && !mapLibres.get(kit).isEmpty();
     }
 
+<<<<<<< Updated upstream
     public static void terminarMapa(Mapa m, Kit k) {
         m.regen(k);
         mapOcupadas.get(k).remove(m);
         if (!mapLibres.get(k).contains(m)) {
             mapLibres.get(k).add(m);
+=======
+    public static void endMap(Map map, Kit kit) {
+        map.regen(kit);
+        mapOcupadas.get(kit).remove(map);
+        if (!mapLibres.get(kit).contains(map)) {
+            mapLibres.get(kit).add(map);
+>>>>>>> Stashed changes
         }
     }
 
-    public static void terminarMapaMeetup(MapaMeetup m, Kit k) {
+    public static void endMeetupMap(MapaMeetup m, Kit k) {
         m.regen(k);
         mapMeetupOcupadas.get(k).remove(m);
         mapMeetupLibres.get(k).add(m);
@@ -356,7 +360,7 @@ public class Extra {
             return true;
         }
         p.sendMessage(nopermission + " " + perm);
-        sonido(p, NOTE_BASS);
+        playSound(p, NOTE_BASS);
         return false;
     }
 
@@ -365,7 +369,7 @@ public class Extra {
             return true;
         }
         p.sendMessage(nopermission + " " + perm + ", " + perm2);
-        sonido(p, NOTE_BASS);
+        playSound(p, NOTE_BASS);
         return false;
     }
 
@@ -375,7 +379,7 @@ public class Extra {
 
     public static void copy(InputStream in, File file) {
         try {
-            OutputStream out = new FileOutputStream(file);
+            OutputStream out = Files.newOutputStream(file.toPath());
             byte[] buf = new byte['?'];
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -388,13 +392,11 @@ public class Extra {
         }
     }
 
-    public static void guardar(File file, FileConfiguration fc) {
+    public static void save(File file, FileConfiguration fc) {
         try {
             fc.save(file);
-
         } catch (IOException ex) {
-            Logger.getLogger(Main.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(SEVERE, null, ex);
         }
     }
 
@@ -403,10 +405,10 @@ public class Extra {
     }
 
     public static List<String> tCC(List<String> list) {
-        List<String> finalList = new ArrayList();
+        List<String> finalList = new ArrayList<>();
         int size = list.size();
-        for (int index = 0; index < size; index++) {
-            String string = ChatColor.translateAlternateColorCodes('&', (String) list.get(index));
+        for (String s : list) {
+            String string = ChatColor.translateAlternateColorCodes('&', s);
             finalList.add(string);
         }
         return finalList;
@@ -421,31 +423,29 @@ public class Extra {
     public static void changeLore(ItemStack item, List<String> l) {
         ItemMeta meta = item.getItemMeta();
         if (!(l == null)) {
-            List<String> Lore = new ArrayList();
-            Lore.addAll(tCC(l));
+            List<String> Lore = new ArrayList<>(tCC(l));
             meta.setLore(Lore);
         }
         item.setItemMeta(meta);
     }
 
-    public static ItemStack crearId(int id, int dv, String d, List<String> l, int a) {
+    public static ItemStack createId(int id, int dv, String d, List<String> l, int a) {
         ItemStack item = new ItemStack(Material.getMaterial(id), a, (byte) dv);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', d));
         if (!(l == null)) {
-            List<String> Lore = new ArrayList();
-            Lore.addAll(tCC(l));
+            List<String> Lore = new ArrayList<>(tCC(l));
             meta.setLore(Lore);
         }
         item.setItemMeta(meta);
         return item;
     }
 
-    public static void sonido(Player player, String sonido) {
-        Sounds.song(player, sonido);
+    public static void playSound(Player player, String sound) {
+        Sounds.song(player, sound);
     }
 
-    public static void avisoConsola(String s) {
+    public static void warning(String s) {
         Main.plugin.getServer().getConsoleSender().sendMessage(s);
     }
 
@@ -496,6 +496,7 @@ public class Extra {
         player.setFireTicks(0);
     }
 
+<<<<<<< Updated upstream
     public static double getSangre(double sangre) {
         if (sangre >= 19) {
             sangre = 10.0;
@@ -537,8 +538,15 @@ public class Extra {
             sangre = 1.0;
         } else if (sangre >= 0.01) {
             sangre = 0.5;
+=======
+    public static double getHealth(double health) {
+        if (health >= 19) {
+            health = 10.0;
+        } else if (health >= 0.01) {
+            health = Math.ceil(health * 2) / 2;
+>>>>>>> Stashed changes
         }
-        return sangre;
+        return health;
     }
 
     public static String NOTE_BASS, CHICKEN_EGG_POP, NOTE_PLING, BURP, ORB_PICKUP, SPLASH2, LEVEL_UP, WITHER_DEATH,
@@ -599,87 +607,17 @@ public class Extra {
     }
 
     public static String secToMin(int i) {
-        String f = "0";
         if (i < 0) {
             i = 0;
         }
-        if (i >= 3600 && i < 7200) {
-            i = i - 3600;
-            int ms = i / 60;
-            int ss = i % 60;
-            String m = (ms < 10 ? "0" : "") + ms;
-            String s = (ss < 10 ? "0" : "") + ss;
-            f = "1:" + m + ":" + s;
-        } else if (i >= 7200 && i < 10800) {
-            i = i - 7200;
-            int ms = i / 60;
-            int ss = i % 60;
-            String m = (ms < 10 ? "0" : "") + ms;
-            String s = (ss < 10 ? "0" : "") + ss;
-            f = "2:" + m + ":" + s;
-        } else if (i >= 10800 && i < 14400) {
-            i = i - 10800;
-            int ms = i / 60;
-            int ss = i % 60;
-            String m = (ms < 10 ? "0" : "") + ms;
-            String s = (ss < 10 ? "0" : "") + ss;
-            f = "3:" + m + ":" + s;
-        } else {
-            int ms = i / 60;
-            int ss = i % 60;
-            String m = (ms < 10 ? "0" : "") + ms;
-            String s = (ss < 10 ? "0" : "") + ss;
-            f = m + ":" + s;
+        int hours = i / 3600;
+        int minutes = (i % 3600) / 60;
+        int seconds = i % 60;
+        String formattedTime = String.format("%d:%02d:%02d", hours, minutes, seconds);
+        if (hours >= 1 && hours <= 3) {
+            formattedTime = hours + formattedTime.substring(1);
         }
-
-        return f;
+        return formattedTime;
     }
 
-    public static int getDiferenciaElo(int total) {
-        if (total <= -500) {
-            total = 31;
-        } else if (total <= -450 && total >= -499) {
-            total = 30;
-        } else if (total <= -400 && total >= -449) {
-            total = 29;
-        } else if (total <= -350 && total >= -399) {
-            total = 28;
-        } else if (total <= -300 && total >= -349) {
-            total = 27;
-        } else if (total <= -250 && total >= -299) {
-            total = 26;
-        } else if (total <= -200 && total >= -249) {
-            total = 24;
-        } else if (total <= -150 && total >= -199) {
-            total = 22;
-        } else if (total <= -100 && total >= -149) {
-            total = 20;
-        } else if (total <= -50 && total >= -99) {
-            total = 19;
-        } else if (total <= 0 && total >= -49) {
-            total = 17;
-        } //--------------
-        else if (total >= 450) {
-            total = 1;
-        } else if (total >= 400 && total <= 449) {
-            total = 2;
-        } else if (total >= 350 && total <= 399) {
-            total = 3;
-        } else if (total >= 300 && total <= 349) {
-            total = 4;
-        } else if (total >= 250 && total <= 299) {
-            total = 6;
-        } else if (total >= 200 && total <= 249) {
-            total = 8;
-        } else if (total >= 150 && total <= 199) {
-            total = 10;
-        } else if (total >= 100 && total <= 149) {
-            total = 12;
-        } else if (total >= 50 && total <= 99) {
-            total = 14;
-        } else if (total >= 1 && total <= 49) {
-            total = 17;
-        }
-        return total;
-    }
 }

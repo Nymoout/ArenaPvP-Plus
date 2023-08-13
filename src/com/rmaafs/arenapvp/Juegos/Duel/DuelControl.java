@@ -4,18 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.rmaafs.arenapvp.Extra;
-import static com.rmaafs.arenapvp.Extra.CHICKEN_EGG_POP;
-import static com.rmaafs.arenapvp.Extra.HORSE_ARMOR;
-import static com.rmaafs.arenapvp.Extra.NOTE_BASS;
-import static com.rmaafs.arenapvp.Extra.ORB_PICKUP;
-import static com.rmaafs.arenapvp.Extra.VILLAGER_NO;
-import static com.rmaafs.arenapvp.Extra.cconfig;
-import static com.rmaafs.arenapvp.Extra.clang;
-import static com.rmaafs.arenapvp.Extra.jugandoUno;
-import static com.rmaafs.arenapvp.Extra.mapLibres;
-import static com.rmaafs.arenapvp.Extra.playerConfig;
-import static com.rmaafs.arenapvp.Extra.preEmpezandoUno;
 import com.rmaafs.arenapvp.Kit;
+
+import static com.rmaafs.arenapvp.Extra.*;
 import static com.rmaafs.arenapvp.Main.extraLang;
 import static com.rmaafs.arenapvp.Main.guis;
 import static com.rmaafs.arenapvp.Main.hotbars;
@@ -73,21 +64,21 @@ public class DuelControl {
         sended = Extra.tc(clang.getString("duelformat.sended"));
         thisplayernowantduel = Extra.tc(clang.getString("duelformat.thisplayernowantduel"));
 
-        if (!Extra.existColor(defaultcolor)) {
-            Extra.avisoConsola("§3ARENAPVP >> §bDefault color of duelformat " + defaultcolor + " no exist. Changing to AQUA.");
+        if (!existColor(defaultcolor)) {
+            warning("§3ARENAPVP >> §bDefault color of duelformat " + defaultcolor + " no exist. Changing to AQUA.");
             defaultcolor = "AQUA";
         }
 
         invBestof = Bukkit.createInventory(null, cconfig.getInt("gui.bestof.rows") * 9, Extra.tc(clang.getString("gui.bestof.name")));
 
         if (cconfig.getBoolean("gui.bestof.one.use")) {
-            invBestof.setItem(cconfig.getInt("gui.bestof.one.slot"), Extra.crearId(cconfig.getInt("gui.bestof.one.id"), cconfig.getInt("gui.bestof.one.data-value"), Extra.tc(clang.getString("gui.bestof.one.name")), Extra.tCC(clang.getStringList("gui.bestof.one.lore")), 1));
+            invBestof.setItem(cconfig.getInt("gui.bestof.one.slot"), Extra.createId(cconfig.getInt("gui.bestof.one.id"), cconfig.getInt("gui.bestof.one.data-value"), Extra.tc(clang.getString("gui.bestof.one.name")), Extra.tCC(clang.getStringList("gui.bestof.one.lore")), 1));
         }
         if (cconfig.getBoolean("gui.bestof.three.use")) {
-            invBestof.setItem(cconfig.getInt("gui.bestof.three.slot"), Extra.crearId(cconfig.getInt("gui.bestof.three.id"), cconfig.getInt("gui.bestof.three.data-value"), Extra.tc(clang.getString("gui.bestof.three.name")), Extra.tCC(clang.getStringList("gui.bestof.three.lore")), 3));
+            invBestof.setItem(cconfig.getInt("gui.bestof.three.slot"), Extra.createId(cconfig.getInt("gui.bestof.three.id"), cconfig.getInt("gui.bestof.three.data-value"), Extra.tc(clang.getString("gui.bestof.three.name")), Extra.tCC(clang.getStringList("gui.bestof.three.lore")), 3));
         }
         if (cconfig.getBoolean("gui.bestof.five.use")) {
-            invBestof.setItem(cconfig.getInt("gui.bestof.five.slot"), Extra.crearId(cconfig.getInt("gui.bestof.five.id"), cconfig.getInt("gui.bestof.five.data-value"), Extra.tc(clang.getString("gui.bestof.five.name")), Extra.tCC(clang.getStringList("gui.bestof.five.lore")), 5));
+            invBestof.setItem(cconfig.getInt("gui.bestof.five.slot"), Extra.createId(cconfig.getInt("gui.bestof.five.id"), cconfig.getInt("gui.bestof.five.data-value"), Extra.tc(clang.getString("gui.bestof.five.name")), Extra.tCC(clang.getStringList("gui.bestof.five.lore")), 5));
         }
     }
 
@@ -98,7 +89,7 @@ public class DuelControl {
                 if (Extra.isCheckPlayerPlaying(o, p)) {
                     creandoDuel.put(p, new PreDuelConfig(p, o));
                     p.openInventory(guis.invDuel);
-                    Extra.sonido(p, CHICKEN_EGG_POP);
+                    Extra.playSound(p, CHICKEN_EGG_POP);
                 }
             }
         }
@@ -113,7 +104,7 @@ public class DuelControl {
                     if (Extra.isExist(p2, p) && Extra.isPerm2(p, "apvp.duel.kit.*", "apvp.duel.kit." + guis.itemKits.get(guis.items.get(slot)).getKitName().toLowerCase())) {
                         creandoDuel.get(p).setKit(guis.itemKits.get(guis.items.get(slot)));
                         p.openInventory(invBestof);
-                        Extra.sonido(p, CHICKEN_EGG_POP);
+                        Extra.playSound(p, CHICKEN_EGG_POP);
                     } else {
                         p.closeInventory();
                         creandoDuel.remove(p);
@@ -140,8 +131,8 @@ public class DuelControl {
                                     .replaceAll("<bestof>", best), hovertext.replaceAll("<player>", p.getName()), "/duel accept " + p.getName(), defaultcolor);
                         }
                         p.sendMessage(sended.replaceAll("<player>", p2.getName()));
-                        Extra.sonido(p, ORB_PICKUP);
-                        Extra.sonido(p2, ORB_PICKUP);
+                        Extra.playSound(p, ORB_PICKUP);
+                        Extra.playSound(p2, ORB_PICKUP);
                     } else {
                         p.closeInventory();
                         creandoDuel.remove(p);
@@ -233,14 +224,14 @@ public class DuelControl {
                     } else {
                         esperandoRanked.put(k, p);
                         p.sendMessage(waitingRanked.replaceAll("<kit>", k.kitName));
-                        Extra.sonido(p, ORB_PICKUP);
+                        Extra.playSound(p, ORB_PICKUP);
                         hotbars.setLeave(p);
                     }
                 } else {
                     for (String s : noHaveRankeds) {
                         p.sendMessage(s);
                     }
-                    Extra.sonido(p, VILLAGER_NO);
+                    Extra.playSound(p, VILLAGER_NO);
                 }
             }
         } else {
@@ -260,14 +251,14 @@ public class DuelControl {
                     } else {
                         esperandoUnRanked.put(k, p);
                         p.sendMessage(waitingUnranked.replaceAll("<kit>", k.kitName));
-                        Extra.sonido(p, ORB_PICKUP);
+                        Extra.playSound(p, ORB_PICKUP);
                         hotbars.setLeave(p);
                     }
                 } else {
                     for (String s : noHaveUnRankeds) {
                         p.sendMessage(s);
                     }
-                    Extra.sonido(p, VILLAGER_NO);
+                    Extra.playSound(p, VILLAGER_NO);
                 }
             }
         }
@@ -278,10 +269,17 @@ public class DuelControl {
         if (mapLibres.get(kit) == null || !mapLibres.containsKey(kit) || mapLibres.get(kit).isEmpty()) {
             p.sendMessage(extraLang.noMapsAvailable);
             o.sendMessage(extraLang.noMapsAvailable);
+<<<<<<< Updated upstream
             Extra.sonido(p, NOTE_BASS);
             Extra.sonido(o, NOTE_BASS);
             Extra.limpiarP(p);
             Extra.limpiarP(o);
+=======
+            Extra.playSound(p, NOTE_BASS);
+            Extra.playSound(o, NOTE_BASS);
+            Extra.cleanPlayer(p);
+            Extra.cleanPlayer(o);
+>>>>>>> Stashed changes
             hotbars.setMain(p);
             hotbars.setMain(o);
             return false;
@@ -296,7 +294,7 @@ public class DuelControl {
                 uinventario.setContents(ultimosInv.get(o));
                 uinventario.setItem(53, guis.itemLeave);
                 p.openInventory(uinventario);
-                Extra.sonido(p, HORSE_ARMOR);
+                Extra.playSound(p, HORSE_ARMOR);
             } else {
                 p.sendMessage(cantSeeLastInv);
             }

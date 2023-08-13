@@ -94,8 +94,13 @@ public class EventGame {
             time = kit.maxTime;
             
             pretime = 6;
+<<<<<<< Updated upstream
             if (Extra.checkMapAvailables(k)) {
                 mapa = Extra.getMap(k);
+=======
+            if (Extra.checkAvailableMaps(k)) {
+                map = Extra.getMap(k);
+>>>>>>> Stashed changes
                 if (tipo == Tipo.FFA) {
                     partyControl.startingsEvents.add(this);
                     preTeleportar();
@@ -103,7 +108,7 @@ public class EventGame {
             } else {
                 for (Player p : players) {
                     p.sendMessage(extraLang.noMapsAvailable);
-                    Extra.sonido(p, NOTE_BASS);
+                    Extra.playSound(p, NOTE_BASS);
                 }
             }
         } else {
@@ -168,7 +173,7 @@ public class EventGame {
                 hotbars.esperandoEscojaHotbar.remove(p);
             }
             p.setGameMode(GameMode.SURVIVAL);
-            Extra.sonido(p, FIREWORK_LARGE_BLAST);
+            Extra.playSound(p, FIREWORK_LARGE_BLAST);
             
             if (kit.combo) {
                 p.setMaximumNoDamageTicks(1);
@@ -229,14 +234,19 @@ public class EventGame {
             if (e.getEntity().getKiller() != null && e.getEntity().getKiller() instanceof Player && e.getEntity().getKiller() != p) {
                 Player k = e.getEntity().getKiller();
                 msg(playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()));
+<<<<<<< Updated upstream
                 p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getSangre(k.getHealth())));
                 Extra.sonido(k, ORB_PICKUP);
+=======
+                p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                Extra.playSound(k, ORB_PICKUP);
+>>>>>>> Stashed changes
             } else {
                 msg(playerdeath.replaceAll("<player>", p.getName()));
                 p.sendMessage(youdeath.replaceAll("<kills>", "" + mykills));
             }
             
-            Extra.sonido(p, VILLAGER_NO);
+            Extra.playSound(p, VILLAGER_NO);
             
             if (players.contains(p)) {
                 players.remove(p);
@@ -307,7 +317,11 @@ public class EventGame {
                         }
                     }
                 }
+<<<<<<< Updated upstream
                 Extra.terminarMapa(mapa, kit);
+=======
+                Extra.endMap(map, kit);
+>>>>>>> Stashed changes
             }
         }, 20L);
     }
@@ -364,7 +378,11 @@ public class EventGame {
                         public void run() {
                             final Player t = (Player) e.getEntity();
                             final Player dam = (Player) a.getShooter();
+<<<<<<< Updated upstream
                             String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getSangre(t.getHealth()));
+=======
+                            String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getHealth(t.getHealth()));
+>>>>>>> Stashed changes
                             dam.sendMessage(s);
                             msgSpec(s);
                         }
@@ -434,10 +452,10 @@ public class EventGame {
     
     public void sonido(String s) {
         for (Player p : players) {
-            Extra.sonido(p, s);
+            Extra.playSound(p, s);
         }
         for (Player p : espectadores) {
-            Extra.sonido(p, s);
+            Extra.playSound(p, s);
         }
     }
 }

@@ -101,7 +101,7 @@ public class HotbarEvent implements Listener {
         } else {
             if (playerConfig.containsKey(p)) {
                 playerConfig.get(p).saveStats();
-                Extra.sacar(p);
+                Extra.remove(p);
             }
         }
     }

@@ -50,7 +50,7 @@ public class MeetupControl {
 
         invMeetup = Bukkit.createInventory(null, cconfig.getInt("gui.meetup.rows") * 9, Extra.tc(clang.getString("gui.meetup.name")));
 
-        itemCreate = Extra.crearId(cconfig.getInt("gui.meetup.create.id"), cconfig.getInt("gui.meetup.create.data-value"), clang.getString("gui.meetup.items.create.name"), clang.getStringList("gui.meetup.items.create.lore"), 1);
+        itemCreate = Extra.createId(cconfig.getInt("gui.meetup.create.id"), cconfig.getInt("gui.meetup.create.data-value"), clang.getString("gui.meetup.items.create.name"), clang.getStringList("gui.meetup.items.create.lore"), 1);
 
         invMeetup.setItem(invMeetup.getSize() - 1, guis.itemLeave);
         invMeetup.setItem(invMeetup.getSize() - 5, itemCreate);
@@ -74,13 +74,13 @@ public class MeetupControl {
 
     public void openInvMeetup(Player p) {
         p.openInventory(invMeetup);
-        Extra.sonido(p, FIREWORK_LARGE_BLAST);
+        Extra.playSound(p, FIREWORK_LARGE_BLAST);
     }
 
     public int addEvent(GameMeetup e) {
         for (int i = 0; i < invMeetup.getSize() - 9; i++) {
             if (invMeetup.getItem(i) == null) {
-                ItemStack item = Extra.crearId(e.kit.itemOnGui.getTypeId(), e.kit.itemOnGui.getData().getData(), "§e" + e.title, e.lore, 1);
+                ItemStack item = Extra.createId(e.kit.itemOnGui.getTypeId(), e.kit.itemOnGui.getData().getData(), "§e" + e.title, e.lore, 1);
                 invMeetup.setItem(i, item);
                 e.guislot = i;
                 meetupStarting.add(e);

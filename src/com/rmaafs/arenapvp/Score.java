@@ -13,6 +13,9 @@ import static com.rmaafs.arenapvp.Main.extraLang;
 import static com.rmaafs.arenapvp.Main.meetupControl;
 import static com.rmaafs.arenapvp.Main.partyControl;
 import static com.rmaafs.arenapvp.Main.ver;
+import static org.bukkit.ChatColor.*;
+import static org.bukkit.scoreboard.DisplaySlot.SIDEBAR;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,7 +50,7 @@ public final class Score {
             b = Bukkit.getScoreboardManager().getNewScoreboard();
             tipo = ti;
             obj = b.registerNewObjective("arenapvpscore", "apvp");
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            obj.setDisplaySlot(SIDEBAR);
 
             if (ti == TipoScore.MAIN) {
                 lista = extraLang.scoreMain;
@@ -132,7 +135,7 @@ public final class Score {
             ponerColores();
             Bukkit.getPluginManager().callEvent(new ScoreBoardRefreshed(b, p));
         } else {
-            p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            p.getScoreboard().clearSlot(SIDEBAR);
         }
     }
 
@@ -157,7 +160,7 @@ public final class Score {
 
     public void update() {
         if (!p.hasPermission("apvp.scoreboard")){
-            p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            p.getScoreboard().clearSlot(SIDEBAR);
             return;
         }
         if (p.getScoreboard() != b) {
@@ -170,7 +173,7 @@ public final class Score {
         c = 0;
         int l = lista.size();
         if (l1.contains("<") && l1.contains(">")) {
-            String e = ponerVariables(l1);
+            String e = setReplacements(l1);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l1.equals("nope")) {
@@ -181,7 +184,7 @@ public final class Score {
         }
         l--;
         if (l2.contains("<") && l2.contains(">")) {
-            String e = ponerVariables(l2);
+            String e = setReplacements(l2);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l2.equals("nope")) {
@@ -192,7 +195,7 @@ public final class Score {
         }
         l--;
         if (l3.contains("<") && l3.contains(">")) {
-            String e = ponerVariables(l3);
+            String e = setReplacements(l3);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l3.equals("nope")) {
@@ -203,7 +206,7 @@ public final class Score {
         }
         l--;
         if (l4.contains("<") && l4.contains(">")) {
-            String e = ponerVariables(l4);
+            String e = setReplacements(l4);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l4.equals("nope")) {
@@ -214,7 +217,7 @@ public final class Score {
         }
         l--;
         if (l5.contains("<") && l5.contains(">")) {
-            String e = ponerVariables(l5);
+            String e = setReplacements(l5);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l5.equals("nope")) {
@@ -225,7 +228,7 @@ public final class Score {
         }
         l--;
         if (l6.contains("<") && l6.contains(">")) {
-            String e = ponerVariables(l6);
+            String e = setReplacements(l6);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l6.equals("nope")) {
@@ -236,7 +239,7 @@ public final class Score {
         }
         l--;
         if (l7.contains("<") && l7.contains(">")) {
-            String e = ponerVariables(l7);
+            String e = setReplacements(l7);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l7.equals("nope")) {
@@ -247,7 +250,7 @@ public final class Score {
         }
         l--;
         if (l8.contains("<") && l8.contains(">")) {
-            String e = ponerVariables(l8);
+            String e = setReplacements(l8);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l8.equals("nope")) {
@@ -258,7 +261,7 @@ public final class Score {
         }
         l--;
         if (l9.contains("<") && l9.contains(">")) {
-            String e = ponerVariables(l9);
+            String e = setReplacements(l9);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l9.equals("nope")) {
@@ -269,7 +272,7 @@ public final class Score {
         }
         l--;
         if (l10.contains("<") && l10.contains(">")) {
-            String e = ponerVariables(l10);
+            String e = setReplacements(l10);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l10.equals("nope")) {
@@ -280,7 +283,7 @@ public final class Score {
         }
         l--;
         if (l11.contains("<") && l11.contains(">")) {
-            String e = ponerVariables(l11);
+            String e = setReplacements(l11);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l11.equals("nope")) {
@@ -291,7 +294,7 @@ public final class Score {
         }
         l--;
         if (l12.contains("<") && l12.contains(">")) {
-            String e = ponerVariables(l12);
+            String e = setReplacements(l12);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l12.equals("nope")) {
@@ -302,7 +305,7 @@ public final class Score {
         }
         l--;
         if (l13.contains("<") && l13.contains(">")) {
-            String e = ponerVariables(l13);
+            String e = setReplacements(l13);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l13.equals("nope")) {
@@ -313,7 +316,7 @@ public final class Score {
         }
         l--;
         if (l14.contains("<") && l14.contains(">")) {
-            String e = ponerVariables(l14);
+            String e = setReplacements(l14);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l14.equals("nope")) {
@@ -324,7 +327,7 @@ public final class Score {
         }
         l--;
         if (l15.contains("<") && l15.contains(">")) {
-            String e = ponerVariables(l15);
+            String e = setReplacements(l15);
             setLine(b.getTeam("main" + l), ChatColor.translateAlternateColorCodes('&', e), l);
         } else {
             if (!l15.equals("nope")) {
@@ -461,7 +464,7 @@ public final class Score {
             }
         }
         if (text.length() <= 16) {
-            suffix = ChatColor.RED.toString();
+            suffix = RED.toString();
         }
         return suffix;
     }
@@ -481,44 +484,43 @@ public final class Score {
 
     private static ChatColor getId(int i) {
         if (i == 0) {
-            return ChatColor.AQUA;
+            return AQUA;
         } else if (i == 1) {
-            return ChatColor.BLACK;
+            return BLACK;
         } else if (i == 2) {
-            return ChatColor.BLUE;
+            return BLUE;
         } else if (i == 3) {
-            return ChatColor.BOLD;
+            return BOLD;
         } else if (i == 4) {
-            return ChatColor.DARK_AQUA;
+            return DARK_AQUA;
         } else if (i == 5) {
-            return ChatColor.DARK_BLUE;
+            return DARK_BLUE;
         } else if (i == 6) {
-            return ChatColor.DARK_GRAY;
+            return DARK_GRAY;
         } else if (i == 7) {
-            return ChatColor.DARK_GREEN;
+            return DARK_GREEN;
         } else if (i == 8) {
-            return ChatColor.DARK_PURPLE;
+            return DARK_PURPLE;
         } else if (i == 9) {
-            return ChatColor.DARK_RED;
+            return DARK_RED;
         } else if (i == 10) {
-            return ChatColor.GOLD;
+            return GOLD;
         } else if (i == 11) {
-            return ChatColor.GRAY;
+            return GRAY;
         } else if (i == 12) {
-            return ChatColor.GREEN;
+            return GREEN;
         } else if (i == 13) {
-            return ChatColor.ITALIC;
+            return ITALIC;
         } else if (i == 14) {
-            return ChatColor.LIGHT_PURPLE;
+            return LIGHT_PURPLE;
         } else if (i == 15) {
-            return ChatColor.RED;
+            return RED;
         }
-        return ChatColor.RED;
+        return RED;
     }
 
-    public String ponerVariables(String m) {
+    public String setReplacements(String m) {
         String total = m;
-
         if (m.contains("<player>")) {
             total = total.replaceAll("<player>", p.getName());
         }
@@ -538,7 +540,6 @@ public final class Score {
                 } else {
                     total = total.replaceAll("<rankeds>", "" + playerConfig.get(p).getRankeds());
                 }
-
             }
             if (m.contains("<unrankeds>")) {
                 if (p.hasPermission("apvp.unrankeds")) {
@@ -546,6 +547,9 @@ public final class Score {
                 } else {
                     total = total.replaceAll("<unrankeds>", "" + playerConfig.get(p).getUnRankeds());
                 }
+            }
+            if (m.contains("<rank>")) {
+                total = total.replaceAll("<rank>", PlaceholderAPI.setPlaceholders(p, "%luckperms_prefix%"));
             }
         } else if (tipo == TipoScore.RANKED || tipo == TipoScore.UNRANKED || tipo == TipoScore.DUEL) {
             Partida partida = jugandoUno.get(p);

@@ -62,7 +62,7 @@ public class CreandoMapaMeetup {
     }
 
     private void paso() {
-        Extra.sonido(p, ORB_PICKUP);
+        Extra.playSound(p, ORB_PICKUP);
         switch (accion) {
             case CORNER1:
                 p.sendMessage(corner.replaceAll("<number>", "1"));
@@ -108,7 +108,7 @@ public class CreandoMapaMeetup {
         p.getInventory().setItem(0, new ItemStack(35, 5, (short) 14));
         spawns.add(loc);
         p.setLevel(spawns.size());
-        Extra.sonido(p, ORB_PICKUP);
+        Extra.playSound(p, ORB_PICKUP);
     }
 
     public void breakBlock(Location loc) {
@@ -116,7 +116,7 @@ public class CreandoMapaMeetup {
             spawns.remove(loc);
             p.sendMessage(spawnremoved);
             p.setLevel(spawns.size());
-            Extra.sonido(p, BURP);
+            Extra.playSound(p, BURP);
         }
     }
 
@@ -151,7 +151,7 @@ public class CreandoMapaMeetup {
         Extra.limpiarP(p);
         hotbars.setMain(p);
         extraLang.teleportSpawn(p);
-        Extra.sonido(p, LEVEL_UP);
+        Extra.playSound(p, LEVEL_UP);
     }
 
     public void crearFile(String s) {
@@ -182,7 +182,7 @@ public class CreandoMapaMeetup {
                 i++;
             }
 
-            Extra.guardar(elkit, ckit);
+            Extra.save(elkit, ckit);
         } catch (IOException ex) {
             Logger.getLogger(CreandoMapaMeetup.class.getName()).log(Level.SEVERE, null, ex);
         }

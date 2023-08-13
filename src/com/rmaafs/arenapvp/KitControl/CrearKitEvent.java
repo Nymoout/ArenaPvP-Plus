@@ -17,30 +17,29 @@ import org.bukkit.inventory.ItemStack;
 
 public class CrearKitEvent implements Listener {
 
-    public static HashMap<Player, CrearKit> creandoKit = new HashMap<>();
-    public static HashMap<Player, EditandoKit> editandoKit = new HashMap<>();
-    
-    public static List<Player> esperandoEditandoKit = new ArrayList<>();
+    public static HashMap<Player, CrearKit> creatingKit = new HashMap<>();
+    public static HashMap<Player, EditandoKit> editingKit = new HashMap<>();
+    public static List<Player> waitingEditKit = new ArrayList<>();
 
     @EventHandler
     public void onChat(PlayerChatEvent e) {
-        if (creandoKit.containsKey(e.getPlayer())) {
+        if (creatingKit.containsKey(e.getPlayer())) {
             e.setCancelled(true);
-            CrearKit ck = creandoKit.get(e.getPlayer());
-            if (ck.accion == CrearKit.Accion.NOMBRE) {
+            CrearKit ck = creatingKit.get(e.getPlayer());
+            if (ck.action == CrearKit.Action.NAME) {
                 ck.setKitName(e.getMessage(), false);
-            } else if (ck.accion == CrearKit.Accion.NOMBRECOLOR) {
+            } else if (ck.action == CrearKit.Action.NAME_COLOR) {
                 ck.setKitName(e.getMessage(), true);
-            } else if (ck.accion == CrearKit.Accion.INVENTARIO && e.getMessage().toLowerCase().contains("ready")) {
+            } else if (ck.action == CrearKit.Action.INVENTORY && e.getMessage().toLowerCase().contains("ready")) {
                 ck.setInventory();
-            } else if (ck.accion == CrearKit.Accion.ITEMSBORRAR && e.getMessage().toLowerCase().contains("ready")) {
+            } else if (ck.action == CrearKit.Action.ITEMS_TO_DELETE && e.getMessage().toLowerCase().contains("ready")) {
                 ck.setRegenItems();
             } else {
                 e.setCancelled(false);
             }
-        } else if (editandoKit.containsKey(e.getPlayer())) {
+        } else if (editingKit.containsKey(e.getPlayer())) {
             e.setCancelled(true);
-            EditandoKit ck = editandoKit.get(e.getPlayer());
+            EditandoKit ck = editingKit.get(e.getPlayer());
             if (ck.accion == EditandoKit.Accion.NOMBRECOLOR) {
                 ck.setKitName(e.getMessage(), true);
             } else if (ck.accion == EditandoKit.Accion.INVENTARIO && e.getMessage().toLowerCase().contains("ready")) {
@@ -70,16 +69,16 @@ public class CrearKitEvent implements Listener {
     @EventHandler
     public void onInventoryCreativeClick(InventoryCreativeEvent e) {
         Player p = (Player) e.getWhoClicked();
-        if (creandoKit.containsKey(p)) {
-            CrearKit ck = creandoKit.get(p);
+        if (creatingKit.containsKey(p)) {
+            CrearKit ck = creatingKit.get(p);
             if (e.getCurrentItem() != null) {
-                if (ck.accion == CrearKit.Accion.ITEM) {
+                if (ck.action == CrearKit.Action.ITEM) {
                     p.closeInventory();
                     ck.clickItem(e.getCursor());
                 }
             }
-        } else if (editandoKit.containsKey(p)) {
-            EditandoKit ck = editandoKit.get(p);
+        } else if (editingKit.containsKey(p)) {
+            EditandoKit ck = editingKit.get(p);
             if (e.getCurrentItem() != null) {
                 if (ck.accion == EditandoKit.Accion.ITEM) {
                     p.closeInventory();
@@ -94,15 +93,15 @@ public class CrearKitEvent implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
         final Player p = (Player) e.getPlayer();
-        if (creandoKit.containsKey(p)) {
-            final CrearKit ck = creandoKit.get(p);
-            if (ck.accion == CrearKit.Accion.POTIONS) {
+        if (creatingKit.containsKey(p)) {
+            final CrearKit ck = creatingKit.get(p);
+            if (ck.action == CrearKit.Action.POTIONS) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     public void run() {
                         p.openInventory(ck.inv);
                     }
                 }, 1L);
-            } else if (ck.accion == CrearKit.Accion.ITEM && e.getInventory().getName().equals(guis.acomodacion.getName())) {
+            } else if (ck.action == CrearKit.Action.ITEM && e.getInventory().getName().equals(guis.acomodacion.getName())) {
                 boolean tiene = false;
                 for (ItemStack i : p.getInventory().getContents()) {
                     if (i != null) {
@@ -120,8 +119,8 @@ public class CrearKitEvent implements Listener {
                     }, 1L);
                 }
             }
-        } else if (editandoKit.containsKey(p)) {
-            final EditandoKit ck = editandoKit.get(p);
+        } else if (editingKit.containsKey(p)) {
+            final EditandoKit ck = editingKit.get(p);
             if (ck.accion == EditandoKit.Accion.POTIONS) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     public void run() {
@@ -152,18 +151,18 @@ public class CrearKitEvent implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
         final Player p = e.getPlayer();
-        if (creandoKit.containsKey(p)) {
+        if (creatingKit.containsKey(p)) {
             e.setCancelled(true);
-            if (creandoKit.get(p).accion == CrearKit.Accion.ITEM && !p.getOpenInventory().getTitle().equals(guis.acomodacion.getName())) {
+            if (creatingKit.get(p).action == CrearKit.Action.ITEM && !p.getOpenInventory().getTitle().equals(guis.acomodacion.getName())) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     public void run() {
                         p.getInventory().clear();
                     }
                 }, 1L);
             }
-        } else if (editandoKit.containsKey(p)) {
+        } else if (editingKit.containsKey(p)) {
             e.setCancelled(true);
-            if (editandoKit.get(p).accion == EditandoKit.Accion.ITEM && !p.getOpenInventory().getTitle().equals(guis.acomodacion.getName())) {
+            if (editingKit.get(p).accion == EditandoKit.Accion.ITEM && !p.getOpenInventory().getTitle().equals(guis.acomodacion.getName())) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     public void run() {
                         p.getInventory().clear();

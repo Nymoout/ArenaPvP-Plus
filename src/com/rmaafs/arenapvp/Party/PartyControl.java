@@ -67,12 +67,12 @@ public class PartyControl {
         invPartys = Bukkit.createInventory(null, 54, invPartysName);
         invPartysOpen = Bukkit.createInventory(null, 54, invPartysOpenName);
 
-        itemCreate = Extra.crearId(cconfig.getInt("gui.party.select.create.id"), cconfig.getInt("gui.party.select.create.data-value"), clang.getString("gui.party.select.items.create.name"), clang.getStringList("gui.party.select.items.create.lore"), 1);
-        itemJoin = Extra.crearId(cconfig.getInt("gui.party.select.join.id"), cconfig.getInt("gui.party.select.join.data-value"), clang.getString("gui.party.select.items.join.name"), clang.getStringList("gui.party.select.items.join.lore"), 1);
+        itemCreate = Extra.createId(cconfig.getInt("gui.party.select.create.id"), cconfig.getInt("gui.party.select.create.data-value"), clang.getString("gui.party.select.items.create.name"), clang.getStringList("gui.party.select.items.create.lore"), 1);
+        itemJoin = Extra.createId(cconfig.getInt("gui.party.select.join.id"), cconfig.getInt("gui.party.select.join.data-value"), clang.getString("gui.party.select.items.join.name"), clang.getStringList("gui.party.select.items.join.lore"), 1);
 
-        itemPartyFFA = Extra.crearId(cconfig.getInt("gui.party.events.ffa.id"), cconfig.getInt("gui.party.events.ffa.data-value"), clang.getString("gui.party.events.items.ffa.name"), clang.getStringList("gui.party.events.items.ffa.lore"), 1);
-        itemPartyGroup = Extra.crearId(cconfig.getInt("gui.party.events.group.id"), cconfig.getInt("gui.party.events.group.data-value"), clang.getString("gui.party.events.items.group.name"), clang.getStringList("gui.party.events.items.group.lore"), 1);
-        itemPartyRR = Extra.crearId(cconfig.getInt("gui.party.events.redrover.id"), cconfig.getInt("gui.party.events.redrover.data-value"), clang.getString("gui.party.events.items.redrover.name"), clang.getStringList("gui.party.events.items.redrover.lore"), 1);
+        itemPartyFFA = Extra.createId(cconfig.getInt("gui.party.events.ffa.id"), cconfig.getInt("gui.party.events.ffa.data-value"), clang.getString("gui.party.events.items.ffa.name"), clang.getStringList("gui.party.events.items.ffa.lore"), 1);
+        itemPartyGroup = Extra.createId(cconfig.getInt("gui.party.events.group.id"), cconfig.getInt("gui.party.events.group.data-value"), clang.getString("gui.party.events.items.group.name"), clang.getStringList("gui.party.events.items.group.lore"), 1);
+        itemPartyRR = Extra.createId(cconfig.getInt("gui.party.events.redrover.id"), cconfig.getInt("gui.party.events.redrover.data-value"), clang.getString("gui.party.events.items.redrover.name"), clang.getStringList("gui.party.events.items.redrover.lore"), 1);
 
         invSelect.setItem(cconfig.getInt("gui.party.select.create.slot"), itemCreate);
         if (cconfig.getBoolean("gui.party.select.join.use")) {
@@ -92,22 +92,22 @@ public class PartyControl {
 
     public void openInvSelect(Player p) {
         p.openInventory(invSelect);
-        Extra.sonido(p, CAT_MEOW);
+        Extra.playSound(p, CAT_MEOW);
     }
 
     public void openinvPartysOpen(Player p) {
         p.openInventory(invPartysOpen);
-        Extra.sonido(p, FIREWORK_LARGE_BLAST);
+        Extra.playSound(p, FIREWORK_LARGE_BLAST);
     }
 
     public void openInvEvents(Player p) {
         p.openInventory(invEvents);
-        Extra.sonido(p, FIREWORK_LARGE_BLAST);
+        Extra.playSound(p, FIREWORK_LARGE_BLAST);
     }
 
     public void openInvPartys(Player p) {
         p.openInventory(invPartys);
-        Extra.sonido(p, FIREWORK_LARGE_BLAST);
+        Extra.playSound(p, FIREWORK_LARGE_BLAST);
     }
 
     public void partyChat(Player p, String msg) {
@@ -140,7 +140,7 @@ public class PartyControl {
             for (Player o : p.players) {
                 lore.add("§e  - " + o.getName());
             }
-            invPartys.setItem(i, Extra.crearId(421, 0, "§e" + p.owner.getName(), lore, p.players.size()));
+            invPartys.setItem(i, Extra.createId(421, 0, "§e" + p.owner.getName(), lore, p.players.size()));
             i++;
         }
         refreshPartyOpeneds(allp);
@@ -162,7 +162,7 @@ public class PartyControl {
             for (Player o : p.players) {
                 lore.add("§e  - " + o.getName());
             }
-            invPartysOpen.setItem(i, Extra.crearId(324, 0, "§e" + p.owner.getName(), lore, p.players.size()));
+            invPartysOpen.setItem(i, Extra.createId(324, 0, "§e" + p.owner.getName(), lore, p.players.size()));
             i++;
         }
     }
@@ -177,7 +177,7 @@ public class PartyControl {
                 for (Player o : p.players) {
                     lore.add("§e  - " + o.getName());
                 }
-                invPartysOpen.setItem(i, Extra.crearId(324, 0, "§e" + p.owner.getName(), lore, p.players.size()));
+                invPartysOpen.setItem(i, Extra.createId(324, 0, "§e" + p.owner.getName(), lore, p.players.size()));
                 i++;
             }
         }
@@ -245,7 +245,7 @@ public class PartyControl {
                 partys.get(o).aceptarInvitado(p);
             } else {
                 p.sendMessage(noexist);
-                Extra.sonido(p, NOTE_BASS);
+                Extra.playSound(p, NOTE_BASS);
             }
         }
     }
@@ -338,7 +338,7 @@ public class PartyControl {
                     preduels.remove(p2);
                     if (!partysDuel.containsKey(game.p1) || partysEvents.containsKey(game.p1)) {
                         if (!partysDuel.containsKey(game.p2) || partysEvents.containsKey(game.p2)) {
-                            if (Extra.checkMapAvailables(game.getKit())) {
+                            if (Extra.checkAvailableMaps(game.getKit())) {
                                 DuelGame dgame = new DuelGame(game.p1, game.p2, game.getKit(), Extra.getMap(game.getKit()));
                                 partysDuel.put(game.p1, dgame);
                                 partysDuel.put(game.p2, dgame);

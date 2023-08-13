@@ -53,21 +53,21 @@ public class Hotbars {
 
         invHotbars = Bukkit.createInventory(null, 9, Extra.tc(clang.getString("gui.editinghotbarchoosenumber.name")));
 
-        itemHotbar1 = Extra.crearId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "1"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 1);
-        itemHotbar2 = Extra.crearId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "2"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 2);
-        itemHotbar3 = Extra.crearId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "3"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 3);
-        itemHotbar4 = Extra.crearId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "4"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 4);
-        itemHotbar5 = Extra.crearId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "5"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 5);
+        itemHotbar1 = Extra.createId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "1"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 1);
+        itemHotbar2 = Extra.createId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "2"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 2);
+        itemHotbar3 = Extra.createId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "3"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 3);
+        itemHotbar4 = Extra.createId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "4"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 4);
+        itemHotbar5 = Extra.createId(cconfig.getInt("gui.editinghotbarchoosenumber.id"), cconfig.getInt("gui.editinghotbarchoosenumber.data-value"), clang.getString("gui.editinghotbarchoosenumber.items.name").replaceAll("<number>", "5"), clang.getStringList("gui.editinghotbarchoosenumber.items.lore"), 5);
 
-        itemLeave = Extra.crearId(cconfig.getInt("hotbar.leave.id"), cconfig.getInt("hotbar.leave.data-value"), clang.getString("hotbar.leave.name"), clang.getStringList("hotbar.leave.lore"), 1);
+        itemLeave = Extra.createId(cconfig.getInt("hotbar.leave.id"), cconfig.getInt("hotbar.leave.data-value"), clang.getString("hotbar.leave.name"), clang.getStringList("hotbar.leave.lore"), 1);
         slotLeave = cconfig.getInt("hotbar.leave.slot");
         
-        itemExtra1 = Extra.crearId(cconfig.getInt("hotbar.extra1.id"), cconfig.getInt("hotbar.extra1.data-value"), clang.getString("hotbar.extra1.name"), clang.getStringList("hotbar.extra1.lore"), 1);
+        itemExtra1 = Extra.createId(cconfig.getInt("hotbar.extra1.id"), cconfig.getInt("hotbar.extra1.data-value"), clang.getString("hotbar.extra1.name"), clang.getStringList("hotbar.extra1.lore"), 1);
         slotExtra1 = cconfig.getInt("hotbar.extra1.slot");
         useExtra1 = cconfig.getBoolean("hotbar.extra1.use");
         commandExtra1 = cconfig.getString("hotbar.extra1.cmd");
         
-        itemExtra2 = Extra.crearId(cconfig.getInt("hotbar.extra2.id"), cconfig.getInt("hotbar.extra2.data-value"), clang.getString("hotbar.extra2.name"), clang.getStringList("hotbar.extra2.lore"), 1);
+        itemExtra2 = Extra.createId(cconfig.getInt("hotbar.extra2.id"), cconfig.getInt("hotbar.extra2.data-value"), clang.getString("hotbar.extra2.name"), clang.getStringList("hotbar.extra2.lore"), 1);
         slotExtra2 = cconfig.getInt("hotbar.extra2.slot");
         useExtra2 = cconfig.getBoolean("hotbar.extra2.use");
         commandExtra2 = cconfig.getString("hotbar.extra2.cmd");
@@ -80,31 +80,31 @@ public class Hotbars {
 
         useRanked = cconfig.getBoolean("hotbar.ranked.use");
         if (useRanked) {
-            itemRanked = Extra.crearId(cconfig.getInt("hotbar.ranked.id"), cconfig.getInt("hotbar.ranked.data-value"), clang.getString("hotbar.ranked.name"), clang.getStringList("hotbar.ranked.lore"), 1);
+            itemRanked = Extra.createId(cconfig.getInt("hotbar.ranked.id"), cconfig.getInt("hotbar.ranked.data-value"), clang.getString("hotbar.ranked.name"), clang.getStringList("hotbar.ranked.lore"), 1);
             slotRanked = cconfig.getInt("hotbar.ranked.slot");
         }
 
         useUnRanked = cconfig.getBoolean("hotbar.unranked.use");
         if (useUnRanked) {
-            itemUnRanked = Extra.crearId(cconfig.getInt("hotbar.unranked.id"), cconfig.getInt("hotbar.unranked.data-value"), clang.getString("hotbar.unranked.name"), clang.getStringList("hotbar.unranked.lore"), 1);
+            itemUnRanked = Extra.createId(cconfig.getInt("hotbar.unranked.id"), cconfig.getInt("hotbar.unranked.data-value"), clang.getString("hotbar.unranked.name"), clang.getStringList("hotbar.unranked.lore"), 1);
             slotUnRanked = cconfig.getInt("hotbar.unranked.slot");
         }
 
         useEditHotbar = cconfig.getBoolean("hotbar.edithotbar.use");
         if (useEditHotbar) {
-            itemEditHotbar = Extra.crearId(cconfig.getInt("hotbar.edithotbar.id"), cconfig.getInt("hotbar.edithotbar.data-value"), clang.getString("hotbar.edithotbar.name"), clang.getStringList("hotbar.edithotbar.lore"), 1);
+            itemEditHotbar = Extra.createId(cconfig.getInt("hotbar.edithotbar.id"), cconfig.getInt("hotbar.edithotbar.data-value"), clang.getString("hotbar.edithotbar.name"), clang.getStringList("hotbar.edithotbar.lore"), 1);
             slotEditHotbar = cconfig.getInt("hotbar.edithotbar.slot");
         }
 
         useMeetup = cconfig.getBoolean("hotbar.meetup.use");
         if (useMeetup) {
-            itemMeetup = Extra.crearId(cconfig.getInt("hotbar.meetup.id"), cconfig.getInt("hotbar.meetup.data-value"), clang.getString("hotbar.meetup.name"), clang.getStringList("hotbar.meetup.lore"), 1);
+            itemMeetup = Extra.createId(cconfig.getInt("hotbar.meetup.id"), cconfig.getInt("hotbar.meetup.data-value"), clang.getString("hotbar.meetup.name"), clang.getStringList("hotbar.meetup.lore"), 1);
             slotMeetup = cconfig.getInt("hotbar.meetup.slot");
         }
 
         useParty = cconfig.getBoolean("hotbar.party.use");
         if (useParty) {
-            itemParty = Extra.crearId(cconfig.getInt("hotbar.party.id"), cconfig.getInt("hotbar.party.data-value"), clang.getString("hotbar.party.name"), clang.getStringList("hotbar.party.lore"), 1);
+            itemParty = Extra.createId(cconfig.getInt("hotbar.party.id"), cconfig.getInt("hotbar.party.data-value"), clang.getString("hotbar.party.name"), clang.getStringList("hotbar.party.lore"), 1);
             slotParty = cconfig.getInt("hotbar.party.slot");
         }
     }
@@ -155,7 +155,7 @@ public class Hotbars {
         }
         Extra.limpiarP(p);
         setMain(p);
-        Extra.sonido(p, NOTE_BASS);
+        Extra.playSound(p, NOTE_BASS);
         Extra.setScore(p, Score.TipoScore.MAIN);
     }
 
@@ -172,7 +172,7 @@ public class Hotbars {
         editingHotbar.remove(p);
         editingSlotHotbar.put(p, new EditingHotbar(k, amount));
         p.sendMessage(editinghotbarmsg.replaceAll("<cmd>", extraLang.commandsavehotbar));
-        Extra.sonido(p, VILLAGER_YES);
+        Extra.playSound(p, VILLAGER_YES);
         p.closeInventory();
     }
 
@@ -188,7 +188,7 @@ public class Hotbars {
         Extra.limpiarP(p);
         extraLang.teleportSpawn(p);
         p.sendMessage(editinghotbarsaved.replaceAll("<kit>", k.kitName).replaceAll("<slot>", "" + slot));
-        Extra.sonido(p, VILLAGER_YES);
+        Extra.playSound(p, VILLAGER_YES);
         hotbars.setMain(p);
     }
 
@@ -205,13 +205,13 @@ public class Hotbars {
         if (jugandoUno.containsKey(p)) {
             Extra.limpiarP(p);
             playerConfig.get(p).putInv(amount, jugandoUno.get(p).kit);
-            Extra.sonido(p, ITEM_PICKUP);
+            Extra.playSound(p, ITEM_PICKUP);
             esperandoEscojaHotbar.remove(p);
             p.updateInventory();
         } else if (meetupControl.meetupsPlaying.containsKey(p)) {
             Extra.limpiarP(p);
             playerConfig.get(p).putInv(amount, meetupControl.meetupsPlaying.get(p).kit);
-            Extra.sonido(p, ITEM_PICKUP);
+            Extra.playSound(p, ITEM_PICKUP);
             esperandoEscojaHotbar.remove(p);
             p.updateInventory();
         } else if (partyControl.partys.containsKey(p)) {
@@ -221,7 +221,7 @@ public class Hotbars {
             } else if (partyControl.partysDuel.containsKey(partyControl.partys.get(p))) {
                 playerConfig.get(p).putInv(amount, partyControl.partysDuel.get(partyControl.partys.get(p)).kit);
             }
-            Extra.sonido(p, ITEM_PICKUP);
+            Extra.playSound(p, ITEM_PICKUP);
             esperandoEscojaHotbar.remove(p);
             p.updateInventory();
         }

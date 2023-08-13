@@ -26,7 +26,7 @@ public class SpecControl {
         if (teMiran.containsKey(p)) {
             Player m = teMiran.get(p);
             m.teleport(e);
-            Extra.sonido(p, ORB_PICKUP);
+            Extra.playSound(p, ORB_PICKUP);
         }
     }
 
@@ -53,7 +53,7 @@ public class SpecControl {
                     p.teleport(t);
                     ponerSpec(p);
                     p.sendMessage(youspecting);
-                    Extra.sonido(p, LEVEL_UP);
+                    Extra.playSound(p, LEVEL_UP);
                 }
             }
         }

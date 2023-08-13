@@ -55,7 +55,7 @@ public class Main extends JavaPlugin implements Listener {
     public static Hotbars hotbars;
     public static DuelControl duelControl;
     public static Lang extraLang;
-    public static Reloj reloj;
+    public static Clock clock;
     public static MeetupControl meetupControl;
     public static PartyControl partyControl;
     public static MySQL mysql;
@@ -146,7 +146,7 @@ public class Main extends JavaPlugin implements Listener {
         meetupControl = new MeetupControl();
         partyControl = new PartyControl();
 
-        reloj = new Reloj();
+        clock = new Clock();
         guis.saveItems();
         specControl = new SpecControl();
         ConnectMySQL();
@@ -241,7 +241,7 @@ public class Main extends JavaPlugin implements Listener {
                         FileConfiguration chot = YamlConfiguration.loadConfiguration(hot);
                         guis.kitsHotbar.put(k, new FileKits(hot, chot));
                         if (g) {
-                            Extra.guardar(hot, chot);
+                            Extra.save(hot, chot);
                         }
                         if (ckit.contains("mapsharing")) {
                             if (kits.containsKey(ckit.getString("mapsharing"))

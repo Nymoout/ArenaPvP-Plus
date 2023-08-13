@@ -68,7 +68,7 @@ public class KitGui {
         guiPreviewKitName = Extra.tc(clang.getString("gui.kitpreview.name"));
         guiStatsName = Extra.tc(clang.getString("gui.stats.name"));
 
-        itemLeave = Extra.crearId(cconfig.getInt("gui.kitpreview.id"), cconfig.getInt("gui.kitpreview.data-value"), clang.getString("gui.kitpreview.items.close.name"), clang.getStringList("gui.kitpreview.items.close.lore"), 1);
+        itemLeave = Extra.createId(cconfig.getInt("gui.kitpreview.id"), cconfig.getInt("gui.kitpreview.data-value"), clang.getString("gui.kitpreview.items.close.name"), clang.getStringList("gui.kitpreview.items.close.lore"), 1);
 
         acomodacion = Bukkit.createInventory(null, cconfig.getInt("gui.kits.rows") * 9, Extra.tc(clang.getString("gui.movekit.name")));
         chooseKit = Bukkit.createInventory(null, cconfig.getInt("gui.kits.rows") * 9, Extra.tc(clang.getString("gui.choosekit.name")));
@@ -108,7 +108,7 @@ public class KitGui {
                     File elkit = new File(plugin.getDataFolder() + File.separator + "kits" + File.separator + itemKits.get(acomodacion.getContents()[i]).kitName + ".yml");
                     FileConfiguration ckit = YamlConfiguration.loadConfiguration(elkit);
                     ckit.set("slot", i);
-                    Extra.guardar(elkit, ckit);
+                    Extra.save(elkit, ckit);
                 }
             }
         }
@@ -122,7 +122,7 @@ public class KitGui {
             }
         }
         t.openInventory(inv);
-        Extra.sonido(t, VILLAGER_YES);
+        Extra.playSound(t, VILLAGER_YES);
     }
 
     public void setNumberRankedPlaying(Kit k, boolean add) {
@@ -263,7 +263,7 @@ public class KitGui {
         } else {
             p.openInventory(inv);
         }
-        Extra.sonido(p, HORSE_ARMOR);
+        Extra.playSound(p, HORSE_ARMOR);
     }
 
     public void clickearLeave(Player p) {
@@ -282,7 +282,7 @@ public class KitGui {
         } else {
             p.closeInventory();//El codigo se repite porque dse buguea con InventoryCloseEvent
         }
-        Extra.sonido(p, CHEST_CLOSE);
+        Extra.playSound(p, CHEST_CLOSE);
     }
 
     public void eliminarKit(Player p, int slot) {
@@ -334,7 +334,7 @@ public class KitGui {
             }
 
             p.sendMessage(kitdeleted);
-            Extra.sonido(p, VILLAGER_YES);
+            Extra.playSound(p, VILLAGER_YES);
         }
     }
 

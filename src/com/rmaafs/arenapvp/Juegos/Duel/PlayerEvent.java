@@ -227,7 +227,7 @@ public class PlayerEvent implements Listener {
         e.setQuitMessage("");
         if (playerConfig.containsKey(e.getPlayer())) {
             playerConfig.get(e.getPlayer()).saveStats();
-            Extra.sacar(e.getPlayer());
+            Extra.remove(e.getPlayer());
         }
     }
 }

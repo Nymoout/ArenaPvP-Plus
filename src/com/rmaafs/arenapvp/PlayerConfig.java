@@ -48,7 +48,7 @@ public class PlayerConfig {
     public void saveStats() {
         stats.componer();
         statsMeetup.componer();
-        SQL.guardarStats(p, true);
+        SQL.saveStats(p, true);
     }
     
     //---------------------

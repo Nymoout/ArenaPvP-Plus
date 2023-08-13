@@ -12,6 +12,7 @@ import com.rmaafs.arenapvp.API.RankedFinishEvent;
 import com.rmaafs.arenapvp.API.RankedStartEvent;
 import com.rmaafs.arenapvp.API.UnRankedFinishEvent;
 import com.rmaafs.arenapvp.API.UnRankedStartEvent;
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
 import static com.rmaafs.arenapvp.Extra.BURP;
 import static com.rmaafs.arenapvp.Extra.LEVEL_UP;
 import static com.rmaafs.arenapvp.Extra.NOTE_STICKS;
@@ -20,12 +21,23 @@ import static com.rmaafs.arenapvp.Extra.VILLAGER_NO;
 import static com.rmaafs.arenapvp.Extra.jugandoUno;
 import static com.rmaafs.arenapvp.Extra.playerConfig;
 import static com.rmaafs.arenapvp.Extra.preEmpezandoUno;
+=======
+
+import static com.rmaafs.arenapvp.Extra.*;
+import static com.rmaafs.arenapvp.Game.GameType.RANKED;
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
 import static com.rmaafs.arenapvp.Main.duelControl;
 import static com.rmaafs.arenapvp.Main.extraLang;
 import static com.rmaafs.arenapvp.Main.guis;
 import static com.rmaafs.arenapvp.Main.hotbars;
 import static com.rmaafs.arenapvp.Main.plugin;
 import static com.rmaafs.arenapvp.Main.ver;
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
+=======
+import static org.bukkit.potion.PotionEffectType.BLINDNESS;
+
+import com.rmaafs.arenapvp.util.EloUtil;
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -60,6 +72,7 @@ public class Partida {
     String bestFormat = "";
     Estilo estilo = Estilo.DUEL;
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
     public Partida(Player p, Player pp, Kit k, Mapa m, String bestFor, int best) {
         p1 = p;
         p2 = pp;
@@ -70,6 +83,17 @@ public class Partida {
         preEmpezar();
         
         if (!playerConfig.containsKey(p1)){
+=======
+    public Game(Player player, Player duelPlayer, Kit kit, Map map, String bestFor, int best) {
+        p1 = player;
+        p2 = duelPlayer;
+        this.kit = kit;
+        this.map = map;
+        bestFormat = bestFor;
+        bestOf = best;
+        preStart();
+        if (!playerConfig.containsKey(p1)) {
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
             playerConfig.put(p1, new PlayerConfig(p1));
         }
         if (!playerConfig.containsKey(p2)){
@@ -91,7 +115,11 @@ public class Partida {
         }
         
         if (ranked) {
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
             estilo = Estilo.RANKED;
+=======
+            gameType = RANKED;
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
             if (!p1.hasPermission("apvp.rankedfree." + k.getKitName().toLowerCase())) {
                 playerConfig.get(p1).removeRanked();
             }
@@ -112,6 +140,7 @@ public class Partida {
         preEmpezar();
     }
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
     private void preEmpezar() {
         List<Integer> lista1 = new ArrayList<>();
         List<Integer> lista2 = new ArrayList<>();
@@ -140,6 +169,27 @@ public class Partida {
 //        }
         mandarSpawn(p);
         hotbars.ponerItemsHotbar(p);
+=======
+    private void preStart() {
+        listClicks.put(p1, new ArrayList<>());
+        listClicks.put(p2, new ArrayList<>());
+        preTime = extraLang.pretimematch;
+        time = kit.maxTime + preTime;
+        preparePlayers(List.of(p1,p2));
+    }
+
+    private void preparePlayers(List<Player> players) {
+        players.forEach(p -> {
+            p.closeInventory();
+            p.setGameMode(GameMode.ADVENTURE);
+            Extra.cleanPlayer(p);
+            if (extraLang.duelEffectTeleport) {
+                p.addPotionEffect(new PotionEffect(BLINDNESS, 30, 1));
+            }
+            teleportToSpawn(p);
+            hotbars.ponerItemsHotbar(p);
+        });
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
     }
 
     public void mandarSpawn(Player p) {
@@ -148,7 +198,7 @@ public class Partida {
         } else {
             p2.teleport(mapa.getSpawn2());
         }
-        Extra.sonido(p, SPLASH2);
+        Extra.playSound(p, SPLASH2);
     }
 
     public void starting(String s) {
@@ -161,6 +211,7 @@ public class Partida {
     }
 
     public void startGame(List<String> msg) {
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
         hitsp1 = 0;
         hitsp2 = 0;
         maxhitsp1 = 0;
@@ -171,6 +222,17 @@ public class Partida {
         flechasp2 = 0;
 
         if (estilo == Estilo.RANKED) {
+=======
+        hitSp1 = 0;
+        hitSp2 = 0;
+        maxHitsP1 = 0;
+        maxHitsP2 = 0;
+        preMaxP1 = 0;
+        preMaxP2 = 0;
+        arrowsP1 = 0;
+        arrowsP2 = 0;
+        if (gameType == RANKED) {
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
             for (String s : duelControl.startingRanked) {
                 msg(s.replaceAll("<player1>", p1.getName())
                         .replaceAll("<player2>", p2.getName())
@@ -182,9 +244,15 @@ public class Partida {
                         .replaceAll("<time>", Extra.secToMin(time))
                         .replaceAll("<kit>", kit.kitName));
             }
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
             Extra.setScore(p1, Score.TipoScore.RANKED);
             Extra.setScore(p2, Score.TipoScore.RANKED);
             Bukkit.getPluginManager().callEvent(new RankedStartEvent(p1, p2, kit.getKitName(), mapa));
+=======
+            setScore(p1, Score.TipoScore.RANKED);
+            setScore(p2, Score.TipoScore.RANKED);
+            Bukkit.getPluginManager().callEvent(new RankedStartEvent(p1, p2, kit.getKitName(), map));
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
         } else {
             for (String s : msg) {
                 msg(s.replaceAll("<player1>", p1.getName())
@@ -194,6 +262,7 @@ public class Partida {
                         .replaceAll("<format>", bestFormat)
                         .replaceAll("<map>", mapa.getName()));
             }
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
             if (estilo == Estilo.UNRANKED) {
                 Extra.setScore(p1, Score.TipoScore.UNRANKED);
                 Extra.setScore(p2, Score.TipoScore.UNRANKED);
@@ -202,6 +271,16 @@ public class Partida {
                 Extra.setScore(p1, Score.TipoScore.DUEL);
                 Extra.setScore(p2, Score.TipoScore.DUEL);
                 Bukkit.getPluginManager().callEvent(new DuelStartEvent(p1, p2, kit.getKitName(), mapa, bestOf, winsp1, winsp2));
+=======
+            if (gameType == GameType.UNRANKED) {
+                setScore(p1, Score.TipoScore.UNRANKED);
+                setScore(p2, Score.TipoScore.UNRANKED);
+                Bukkit.getPluginManager().callEvent(new UnRankedStartEvent(p1, p2, kit.getKitName(), map));
+            } else {
+                setScore(p1, Score.TipoScore.DUEL);
+                setScore(p2, Score.TipoScore.DUEL);
+                Bukkit.getPluginManager().callEvent(new DuelStartEvent(p1, p2, kit.getKitName(), map, bestOf, winsP1, winsP2));
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
             }
 
         }
@@ -324,7 +403,11 @@ public class Partida {
 
         msg(duelControl.win.replaceAll("<winner>", w.getName())
                 .replaceAll("<loser>", l.getName())
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
                 .replaceAll("<health>", "" + Extra.getSangre(w.getHealth()))
+=======
+                .replaceAll("<health>", "" + Extra.getHealth(w.getHealth()))
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
                 .replaceAll("<kit>", kit.kitName));
 
         ponerLastInventory(w);
@@ -358,8 +441,13 @@ public class Partida {
             hotbars.esperandoEscojaHotbar.remove(l);
         }
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
         if (estilo == Estilo.RANKED) {
             int elo = Extra.getDiferenciaElo(playerConfig.get(w).getElo(kit) - playerConfig.get(l).getElo(kit));
+=======
+        if (gameType == RANKED) {
+            int elo = EloUtil.getEloDifference(playerConfig.get(w).getElo(kit) - playerConfig.get(l).getElo(kit));
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
 
             playerConfig.get(w).addElo(kit, elo);
             playerConfig.get(l).removeElo(kit, elo);
@@ -371,11 +459,19 @@ public class Partida {
                     .replaceAll("<elo1>", "" + playerConfig.get(w).getElo(kit))
                     .replaceAll("<elo2>", "" + playerConfig.get(l).getElo(kit))
                     .replaceAll("<elo>", "" + elo));
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
             Extra.sonido(w, LEVEL_UP);
             Extra.sonido(l, VILLAGER_NO);
             Bukkit.getPluginManager().callEvent(new RankedFinishEvent(w, l, kit.getKitName(), mapa, elo));
         } else if (estilo == Estilo.UNRANKED) {
             Bukkit.getPluginManager().callEvent(new UnRankedFinishEvent(w, l, kit.getKitName(), mapa));
+=======
+            Extra.playSound(w, LEVEL_UP);
+            Extra.playSound(l, VILLAGER_NO);
+            Bukkit.getPluginManager().callEvent(new RankedFinishEvent(w, l, kit.getKitName(), map, elo));
+        } else if (gameType == GameType.UNRANKED) {
+            Bukkit.getPluginManager().callEvent(new UnRankedFinishEvent(w, l, kit.getKitName(), map));
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
         } else {
             if (w == p1) {
                 Bukkit.getPluginManager().callEvent(new DuelFinishEvent(w, l, kit.getKitName(), mapa, bestOf, winsp1, winsp2));
@@ -411,12 +507,21 @@ public class Partida {
                                 .replaceAll("<points1>", "" + points1)
                                 .replaceAll("<points2>", "" + points2));
                     }
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
                     Extra.terminarMapa(mapa, kit);
                     if (estilo == Estilo.RANKED) {
                         guis.setNumberRankedPlaying(kit, false);
                         SQL.guardarStats(w, false);
                         SQL.guardarStats(l, false);
                     } else if (estilo == Estilo.UNRANKED) {
+=======
+                    Extra.endMap(map, kit);
+                    if (gameType == RANKED) {
+                        guis.setNumberRankedPlaying(kit, false);
+                        SQL.saveStats(w, false);
+                        SQL.saveStats(l, false);
+                    } else if (gameType == GameType.UNRANKED) {
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
                         guis.setNumberUnRankedPlaying(kit, false);
                     }
                 }
@@ -430,7 +535,7 @@ public class Partida {
             hotbars.setMain(p);
             p.setFireTicks(0);
             p.setMaximumNoDamageTicks(20);
-            Extra.setScore(p, Score.TipoScore.MAIN);
+            setScore(p, Score.TipoScore.MAIN);
         }
         jugandoUno.remove(p);
     }
@@ -447,9 +552,15 @@ public class Partida {
         p2.sendMessage(s);
     }
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
     public void sonido(String s) {
         Extra.sonido(p1, s);
         Extra.sonido(p2, s);
+=======
+    public void playSound(String s) {
+        Extra.playSound(p1, s);
+        Extra.playSound(p2, s);
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
     }
 
     public void msgSpec(String s) {
@@ -543,7 +654,11 @@ public class Partida {
                             public void run() {
                                 final Player t = (Player) e.getEntity();
                                 final Player dam = (Player) a.getShooter();
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Partida.java
                                 String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getSangre(t.getHealth()));
+=======
+                                String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getHealth(t.getHealth()));
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Game.java
                                 dam.sendMessage(s);
                                 msgSpec(s);
                             }

@@ -39,7 +39,7 @@ public class Command implements CommandExecutor {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("createkit")) {
                     if (Extra.isPerm(p, "apvp.create.kit")) {
-                        CrearKitEvent.creandoKit.put(p, new CrearKit(p));
+                        CrearKitEvent.creatingKit.put(p, new CrearKit(p));
                     }
                 } else if (args[0].equalsIgnoreCase("createmap")) {
                     if (Extra.isPerm(p, "apvp.create.map")) {
@@ -62,13 +62,13 @@ public class Command implements CommandExecutor {
                             ItemMeta meta = p.getItemInHand().getItemMeta();
                             meta.setDisplayName(Main.extraLang.goldenname);
                             p.getItemInHand().setItemMeta(meta);
-                            Extra.sonido(p, Extra.BURP);
+                            Extra.playSound(p, Extra.BURP);
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("editkit")) {
                     if (Extra.isPerm(p, "apvp.create.editkit")) {
-                        if (!CrearKitEvent.esperandoEditandoKit.contains(p)) {
-                            CrearKitEvent.esperandoEditandoKit.add(p);
+                        if (!CrearKitEvent.waitingEditKit.contains(p)) {
+                            CrearKitEvent.waitingEditKit.add(p);
                         }
                         p.openInventory(Main.guis.chooseKit);
                     }
@@ -90,7 +90,7 @@ public class Command implements CommandExecutor {
                     if (Extra.isPerm(p, "apvp.command.resetrankeds")) {
                         Extra.resetRankedsUnRankeds();
                         for (Player o : Bukkit.getServer().getOnlinePlayers()) {
-                            Extra.playerConfig.get(o).stats.reloadRankedsUnrankeds();
+                            Extra.playerConfig.get(o).stats.reloadRankedsAndUnrankeds();
                         }
                         p.sendMessage("§aRankeds and Unrankeds reseted!");
                     }
@@ -271,7 +271,7 @@ public class Command implements CommandExecutor {
                 File toFile = new File(Main.plugin.getDataFolder() + File.separator + "kits" + File.separator + toKit + ".yml");
                 FileConfiguration ckit = YamlConfiguration.loadConfiguration(toFile);
                 ckit.set("mapsharing", kit);
-                Extra.guardar(toFile, ckit);
+                Extra.save(toFile, ckit);
                 Extra.mapLibres.put(Extra.kits.get(toKit), Extra.mapLibres.get(Extra.kits.get(kit)));
                 Extra.mapOcupadas.put(Extra.kits.get(toKit), Extra.mapOcupadas.get(Extra.kits.get(kit)));
 
@@ -303,8 +303,8 @@ public class Command implements CommandExecutor {
         Extra.cspawns.set(path + ".z", loc.getZ());
         Extra.cspawns.set(path + ".ya", loc.getYaw());
         Extra.cspawns.set(path + ".p", loc.getPitch());
-        Extra.guardar(Extra.spawns, Extra.cspawns);
-        Extra.sonido(p, Extra.LEVEL_UP);
+        Extra.save(Extra.spawns, Extra.cspawns);
+        Extra.playSound(p, Extra.LEVEL_UP);
     }
 
     public void setElo(Player p, String t, String k, String elo) {
@@ -343,8 +343,8 @@ public class Command implements CommandExecutor {
                 Extra.playerConfig.get(t).stats.setRankeds(r + Main.extraLang.giftrankeds);
                 p.sendMessage(Main.extraLang.gived.replaceAll("<player>", t.getName()).replaceAll("<number>", "" + Main.extraLang.giftrankeds));
                 t.sendMessage(Main.extraLang.yougived.replaceAll("<player>", p.getName()).replaceAll("<number>", "" + Main.extraLang.giftrankeds));
-                Extra.sonido(p, Extra.LEVEL_UP);
-                Extra.sonido(t, Extra.LEVEL_UP);
+                Extra.playSound(p, Extra.LEVEL_UP);
+                Extra.playSound(t, Extra.LEVEL_UP);
             } else {
                 p.sendMessage(Main.extraLang.alreadygift);
             }

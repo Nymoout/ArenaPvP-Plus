@@ -58,12 +58,12 @@ public class Party {
 
         created = Extra.tCC(clang.getStringList("party.create.created"));
 
-        itemRanked2 = Extra.crearId(cconfig.getInt("hotbar.party.ranked2.id"), cconfig.getInt("hotbar.party.ranked2.data-value"), clang.getString("hotbar.party.ranked2.name"), clang.getStringList("hotbar.party.ranked2.lore"), 2);
-        itemRanked3 = Extra.crearId(cconfig.getInt("hotbar.party.ranked3.id"), cconfig.getInt("hotbar.party.ranked3.data-value"), clang.getString("hotbar.party.ranked3.name"), clang.getStringList("hotbar.party.ranked3.lore"), 3);
-        itemRanked4 = Extra.crearId(cconfig.getInt("hotbar.party.ranked4.id"), cconfig.getInt("hotbar.party.ranked4.data-value"), clang.getString("hotbar.party.ranked4.name"), clang.getStringList("hotbar.party.ranked4.lore"), 4);
-        itemEvent = Extra.crearId(cconfig.getInt("hotbar.party.event.id"), cconfig.getInt("hotbar.party.event.data-value"), clang.getString("hotbar.party.event.name"), clang.getStringList("hotbar.party.event.lore"), 1);
-        itemDuel = Extra.crearId(cconfig.getInt("hotbar.party.duel.id"), cconfig.getInt("hotbar.party.duel.data-value"), clang.getString("hotbar.party.duel.name"), clang.getStringList("hotbar.party.duel.lore"), 1);
-        itemConfig = Extra.crearId(cconfig.getInt("hotbar.party.config.id"), cconfig.getInt("hotbar.party.config.data-value"), clang.getString("hotbar.party.config.name"), clang.getStringList("hotbar.party.config.lore"), 1);
+        itemRanked2 = Extra.createId(cconfig.getInt("hotbar.party.ranked2.id"), cconfig.getInt("hotbar.party.ranked2.data-value"), clang.getString("hotbar.party.ranked2.name"), clang.getStringList("hotbar.party.ranked2.lore"), 2);
+        itemRanked3 = Extra.createId(cconfig.getInt("hotbar.party.ranked3.id"), cconfig.getInt("hotbar.party.ranked3.data-value"), clang.getString("hotbar.party.ranked3.name"), clang.getStringList("hotbar.party.ranked3.lore"), 3);
+        itemRanked4 = Extra.createId(cconfig.getInt("hotbar.party.ranked4.id"), cconfig.getInt("hotbar.party.ranked4.data-value"), clang.getString("hotbar.party.ranked4.name"), clang.getStringList("hotbar.party.ranked4.lore"), 4);
+        itemEvent = Extra.createId(cconfig.getInt("hotbar.party.event.id"), cconfig.getInt("hotbar.party.event.data-value"), clang.getString("hotbar.party.event.name"), clang.getStringList("hotbar.party.event.lore"), 1);
+        itemDuel = Extra.createId(cconfig.getInt("hotbar.party.duel.id"), cconfig.getInt("hotbar.party.duel.data-value"), clang.getString("hotbar.party.duel.name"), clang.getStringList("hotbar.party.duel.lore"), 1);
+        itemConfig = Extra.createId(cconfig.getInt("hotbar.party.config.id"), cconfig.getInt("hotbar.party.config.data-value"), clang.getString("hotbar.party.config.name"), clang.getStringList("hotbar.party.config.lore"), 1);
 
         slotRanked2 = cconfig.getInt("hotbar.party.ranked2.slot");
         slotRanked3 = cconfig.getInt("hotbar.party.ranked3.slot");
@@ -101,7 +101,7 @@ public class Party {
         noarewaiting = Extra.tc(clang.getString("party.create.noarewaiting"));
 
         invConfig = Bukkit.createInventory(null, cconfig.getInt("gui.party.config.rows") * 9, partyControl.invConfigName);
-        itemConfigOpen = Extra.crearId(cconfig.getInt("gui.party.config.open.id"), cconfig.getInt("gui.party.config.open.data-value"), clang.getString("gui.party.config.items.open.name"), clang.getStringList("gui.party.config.items.open.lore"), 1);
+        itemConfigOpen = Extra.createId(cconfig.getInt("gui.party.config.open.id"), cconfig.getInt("gui.party.config.open.data-value"), clang.getString("gui.party.config.items.open.name"), clang.getStringList("gui.party.config.items.open.lore"), 1);
 
         invConfig.setItem(cconfig.getInt("gui.party.config.open.slot"), itemConfigOpen);
 
@@ -110,7 +110,7 @@ public class Party {
         for (String s : created) {
             o.sendMessage(s);
         }
-        Extra.sonido(o, CAT_MEOW);
+        Extra.playSound(o, CAT_MEOW);
     }
 
     public void setHotbar(Player p) {
@@ -169,7 +169,7 @@ public class Party {
                 } else {
                     p.closeInventory();
                     p.sendMessage(needminplayers.replaceAll("<min>", "" + minplayers));
-                    Extra.sonido(p, NOTE_BASS);
+                    Extra.playSound(p, NOTE_BASS);
                 }
             }
         } else if (i.isSimilar(itemConfigOpen)) {
@@ -225,9 +225,9 @@ public class Party {
                     invitados.add(p);
                     p.sendMessage(youareinvited.replaceAll("<player>", owner.getName()));
                     Extra.text(p, clickMsg, "§e" + pla, "/party accept " + owner.getName(), "GREEN");
-                    Extra.sonido(owner, CAT_MEOW);
+                    Extra.playSound(owner, CAT_MEOW);
                     owner.sendMessage(duelsent.replaceAll("<player>", p.getName()));
-                    Extra.sonido(owner, VILLAGER_YES);
+                    Extra.playSound(owner, VILLAGER_YES);
                 } else {
                     owner.sendMessage(alreadyinvitedthisplayer);
                 }
@@ -236,7 +236,7 @@ public class Party {
             }
         } else {
             owner.sendMessage(playerintheparty);
-            Extra.sonido(owner, NOTE_BASS);
+            Extra.playSound(owner, NOTE_BASS);
         }
     }
 
@@ -250,7 +250,7 @@ public class Party {
             }
         } else {
             p.sendMessage(dontinvited);
-            Extra.sonido(p, NOTE_BASS);
+            Extra.playSound(p, NOTE_BASS);
         }
     }
 
@@ -262,12 +262,12 @@ public class Party {
                 sonido(BURP);
                 Extra.text(owner, wantjoinclick, wantjoinhover, "/party acceptplayer " + p.getName(), "AQUA");
                 p.sendMessage(invitesent);
-                Extra.sonido(p, LEVEL_UP);
+                Extra.playSound(p, LEVEL_UP);
             }
             p.closeInventory();
         } else {
             p.sendMessage(youalreadysent);
-            Extra.sonido(p, NOTE_BASS);
+            Extra.playSound(p, NOTE_BASS);
             p.closeInventory();
         }
     }
@@ -349,7 +349,7 @@ public class Party {
 
     public void sonido(String s) {
         for (Player p : players) {
-            Extra.sonido(p, s);
+            Extra.playSound(p, s);
         }
     }
 }

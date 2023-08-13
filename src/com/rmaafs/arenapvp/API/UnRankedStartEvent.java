@@ -8,10 +8,15 @@ import org.bukkit.event.HandlerList;
 
 public class UnRankedStartEvent extends Event {
     
-    Player player1, player2;
-    String kitName, mapName;
-    boolean regen;
-    Location spawn1, spawn2, corner1, corner2;
+    public Player player1;
+    public Player player2;
+    public String kitName;
+    public String mapName;
+    public boolean regen;
+    public Location spawn1;
+    public Location spawn2;
+    public Location corner1;
+    public Location corner2;
 
     public UnRankedStartEvent(Player p1, Player p2, String kn, Mapa m) {
         player1 = p1;

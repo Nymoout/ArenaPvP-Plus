@@ -53,10 +53,10 @@ public class PreConfigMeetup {
         slotType = cconfig.getInt("gui.meetupconfig.type.slot");
 
         slotsname = clang.getString("gui.meetupconfig.items.slots.name");
-        itemSlots = Extra.crearId(cconfig.getInt("gui.meetupconfig.slots.id"), cconfig.getInt("gui.meetupconfig.slots.data-value"), slotsname.replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.slots.lore"), slots);
-        itemFFA = Extra.crearId(cconfig.getInt("gui.meetupconfig.type.ffa.id"), cconfig.getInt("gui.meetupconfig.type.ffa.data-value"), clang.getString("gui.meetupconfig.items.type.ffa.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.type.ffa.lore"), 1);
-        itemGroup = Extra.crearId(cconfig.getInt("gui.meetupconfig.type.group.id"), cconfig.getInt("gui.meetupconfig.type.group.data-value"), clang.getString("gui.meetupconfig.items.type.group.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.type.group.lore"), 1);
-        itemStart = Extra.crearId(cconfig.getInt("gui.meetupconfig.start.id"), cconfig.getInt("gui.meetupconfig.start.data-value"), clang.getString("gui.meetupconfig.items.start.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.start.lore"), 1);
+        itemSlots = Extra.createId(cconfig.getInt("gui.meetupconfig.slots.id"), cconfig.getInt("gui.meetupconfig.slots.data-value"), slotsname.replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.slots.lore"), slots);
+        itemFFA = Extra.createId(cconfig.getInt("gui.meetupconfig.type.ffa.id"), cconfig.getInt("gui.meetupconfig.type.ffa.data-value"), clang.getString("gui.meetupconfig.items.type.ffa.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.type.ffa.lore"), 1);
+        itemGroup = Extra.createId(cconfig.getInt("gui.meetupconfig.type.group.id"), cconfig.getInt("gui.meetupconfig.type.group.data-value"), clang.getString("gui.meetupconfig.items.type.group.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.type.group.lore"), 1);
+        itemStart = Extra.createId(cconfig.getInt("gui.meetupconfig.start.id"), cconfig.getInt("gui.meetupconfig.start.data-value"), clang.getString("gui.meetupconfig.items.start.name").replaceAll("<slots>", "" + slots), clang.getStringList("gui.meetupconfig.items.start.lore"), 1);
 
         invConfig.setItem(cconfig.getInt("gui.meetupconfig.slots.slot"), itemSlots);
         invConfig.setItem(slotType, itemFFA);
@@ -84,23 +84,23 @@ public class PreConfigMeetup {
             Extra.changeName(i, slotsname.replaceAll("<slots>", "" + slots));
             i.setAmount(slots);
             itemSlots = i;
-            Extra.sonido(p, NOTE_PLING);
+            Extra.playSound(p, NOTE_PLING);
         } else if (i.isSimilar(itemFFA)) {
 //            invConfig.setItem(slotType, itemGroup);
             p.sendMessage("§cYou can change coming soon...");
-            Extra.sonido(p, HORSE_ARMOR);
+            Extra.playSound(p, HORSE_ARMOR);
         } else if (i.isSimilar(itemGroup)) {
             invConfig.setItem(slotType, itemFFA);
-            Extra.sonido(p, HORSE_ARMOR);
+            Extra.playSound(p, HORSE_ARMOR);
         } else if (i.isSimilar(guis.itemLeave)) {
             meetupControl.creandoEventoMeetup.remove(p);
             p.closeInventory();
             p.sendMessage(cancelled);
-            Extra.sonido(p, NOTE_BASS);
+            Extra.playSound(p, NOTE_BASS);
         } else if (i.isSimilar(itemStart)) {
             writing = true;
             p.sendMessage(writename);
-            Extra.sonido(p, VILLAGER_YES);
+            Extra.playSound(p, VILLAGER_YES);
             p.closeInventory();
         }
     }
@@ -121,7 +121,7 @@ public class PreConfigMeetup {
             Extra.setScore(p, Score.TipoScore.MEETUPWAITING);
         } else {
             p.sendMessage(nomaps);
-            Extra.sonido(p, NOTE_BASS);
+            Extra.playSound(p, NOTE_BASS);
         }
     }
 }

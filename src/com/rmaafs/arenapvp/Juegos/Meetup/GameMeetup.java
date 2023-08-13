@@ -119,7 +119,7 @@ public class GameMeetup {
         p.setGameMode(GameMode.ADVENTURE);
         p.setLevel(pretime);
         hotbars.setLeave(p);
-        Extra.sonido(p, LEVEL_UP);
+        Extra.playSound(p, LEVEL_UP);
 
         Bukkit.broadcastMessage(broadcast.replaceAll("<player>", owner).replaceAll("<kit>", k.getKitName()).replaceAll("<name>", title));
 
@@ -128,7 +128,7 @@ public class GameMeetup {
             String hover = Extra.tc(clang.getString("meetup.game.clickjoin.hover").replaceAll("<owner>", owner));
             for (Player o : Bukkit.getServer().getOnlinePlayers()) {
                 if (!players.contains(o)) {
-                    Extra.sonido(o, FIREWORK_LARGE_BLAST);
+                    Extra.playSound(o, FIREWORK_LARGE_BLAST);
                     Extra.text(o, text, hover, "/joinmeetupevent " + guislot, "GREEN");
                 }
             }
@@ -258,7 +258,7 @@ public class GameMeetup {
                 for (Player o : Bukkit.getServer().getOnlinePlayers()) {
                     if (!players.contains(o)) {
                         o.sendMessage(broad);
-                        Extra.sonido(o, FIREWORK_LARGE_BLAST);
+                        Extra.playSound(o, FIREWORK_LARGE_BLAST);
                         Extra.text(o, text, hover, "/joinmeetupevent " + guislot, "GREEN");
                     }
                 }
@@ -298,7 +298,7 @@ public class GameMeetup {
                 hotbars.esperandoEscojaHotbar.remove(p);
             }
             p.setGameMode(GameMode.SURVIVAL);
-            Extra.sonido(p, FIREWORK_LARGE_BLAST);
+            Extra.playSound(p, FIREWORK_LARGE_BLAST);
 
             if (kit.combo) {
                 p.setMaximumNoDamageTicks(1);
@@ -353,8 +353,13 @@ public class GameMeetup {
             if (e.getEntity().getKiller() != null && e.getEntity().getKiller() instanceof Player && e.getEntity().getKiller() != p) {
                 Player k = e.getEntity().getKiller();
                 msg(playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()));
+<<<<<<< Updated upstream
                 p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getSangre(k.getHealth())).replaceAll("<kills>", "" + mykills));
                 Extra.sonido(k, ORB_PICKUP);
+=======
+                p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())).replaceAll("<kills>", "" + mykills));
+                Extra.playSound(k, ORB_PICKUP);
+>>>>>>> Stashed changes
 
                 if (!kills.containsKey(k)) {
                     kills.put(k, 1);
@@ -369,7 +374,7 @@ public class GameMeetup {
                 Bukkit.getPluginManager().callEvent(new MeetupDeathEvent(this, p, e));
             }
 
-            Extra.sonido(p, VILLAGER_NO);
+            Extra.playSound(p, VILLAGER_NO);
 
             if (players.contains(p)) {
                 players.remove(p);
@@ -472,7 +477,7 @@ public class GameMeetup {
                     }
                     extraLang.teleportSpawn(p);
                     hotbars.setMain(p);
-                    Extra.terminarMapaMeetup(mapa, kit);
+                    Extra.endMeetupMap(mapa, kit);
                 }
             }
         }, 20L);
@@ -513,7 +518,11 @@ public class GameMeetup {
                         public void run() {
                             final Player t = (Player) e.getEntity();
                             final Player dam = (Player) a.getShooter();
+<<<<<<< Updated upstream
                             String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getSangre(t.getHealth()));
+=======
+                            String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getHealth(t.getHealth()));
+>>>>>>> Stashed changes
                             dam.sendMessage(s);
                         }
                     }, 1L);
@@ -584,11 +593,11 @@ public class GameMeetup {
 
     private void sonido(String s) {
         for (Player p : players) {
-            Extra.sonido(p, s);
+            Extra.playSound(p, s);
         }
 
         for (Player p : espectadores) {
-            Extra.sonido(p, s);
+            Extra.playSound(p, s);
         }
     }
 }

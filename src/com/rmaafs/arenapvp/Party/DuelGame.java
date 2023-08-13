@@ -159,7 +159,7 @@ public class DuelGame {
                 hotbars.esperandoEscojaHotbar.remove(p);
             }
             p.setGameMode(GameMode.SURVIVAL);
-            Extra.sonido(p, FIREWORK_LARGE_BLAST);
+            Extra.playSound(p, FIREWORK_LARGE_BLAST);
 
             if (kit.combo) {
                 p.setMaximumNoDamageTicks(1);
@@ -178,7 +178,7 @@ public class DuelGame {
                 hotbars.esperandoEscojaHotbar.remove(p);
             }
             p.setGameMode(GameMode.SURVIVAL);
-            Extra.sonido(p, FIREWORK_LARGE_BLAST);
+            Extra.playSound(p, FIREWORK_LARGE_BLAST);
 
             if (kit.combo) {
                 p.setMaximumNoDamageTicks(1);
@@ -200,6 +200,7 @@ public class DuelGame {
             if (e.getEntity().getKiller() != null && e.getEntity().getKiller() instanceof Player && e.getEntity().getKiller() != p) {
                 Player k = e.getEntity().getKiller();
                 if (players1.contains(p)) {
+<<<<<<< Updated upstream
                     p1.msg("§c" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getSangre(k.getHealth())));
                     p2.msg("§a" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getSangre(k.getHealth())));
                 } else {
@@ -209,6 +210,17 @@ public class DuelGame {
 
                 p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getSangre(k.getHealth())));
                 Extra.sonido(k, ORB_PICKUP);
+=======
+                    p1.msg("§c" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                    p2.msg("§a" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                } else {
+                    p1.msg("§a" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                    p2.msg("§c" + playerkilled.replaceAll("<player>", p.getName()).replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                }
+
+                p.sendMessage(youkilled.replaceAll("<killer>", k.getName()).replaceAll("<health>", "" + Extra.getHealth(k.getHealth())));
+                Extra.playSound(k, ORB_PICKUP);
+>>>>>>> Stashed changes
             } else {
                 if (players1.contains(p)) {
                     p1.msg("§c" + playerdeath.replaceAll("<player>", p.getName()));
@@ -220,7 +232,7 @@ public class DuelGame {
                 p.sendMessage(youdeath);
             }
 
-            Extra.sonido(p, VILLAGER_NO);
+            Extra.playSound(p, VILLAGER_NO);
 
             if (players1.contains(p)) {
                 players1.remove(p);
@@ -343,7 +355,11 @@ public class DuelGame {
             public void run() {
                 removeParty(p1);
                 removeParty(p2);
+<<<<<<< Updated upstream
                 Extra.terminarMapa(mapa, kit);
+=======
+                Extra.endMap(map, kit);
+>>>>>>> Stashed changes
             }
         }, 20L);
     }
@@ -430,7 +446,11 @@ public class DuelGame {
                             public void run() {
                                 final Player t = (Player) e.getEntity();
                                 final Player dam = (Player) a.getShooter();
+<<<<<<< Updated upstream
                                 String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getSangre(t.getHealth()));
+=======
+                                String s = extraLang.viewheal.replaceAll("<player>", t.getName()).replaceAll("<heal>", "" + Extra.getHealth(t.getHealth()));
+>>>>>>> Stashed changes
                                 dam.sendMessage(s);
                                 msgSpec(s);
                             }

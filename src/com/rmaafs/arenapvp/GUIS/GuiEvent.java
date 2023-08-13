@@ -43,10 +43,10 @@ public class GuiEvent implements Listener {
             if (guis.escojiendoCrearMapa.contains(p)) {
                 e.setCancelled(true);
                 clickCrearMapa(i, p);
-            } else if (CrearKitEvent.esperandoEditandoKit.contains(p)) {
+            } else if (CrearKitEvent.waitingEditKit.contains(p)) {
                 e.setCancelled(true);
                 p.closeInventory();
-                CrearKitEvent.editandoKit.put(p, new EditandoKit(p, guis.getKitSlot(e.getSlot())));
+                CrearKitEvent.editingKit.put(p, new EditandoKit(p, guis.getKitSlot(e.getSlot())));
             } else if (esperandoEliminarKit.contains(p)) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -55,17 +55,17 @@ public class GuiEvent implements Listener {
                 e.setCancelled(true);
                 p.closeInventory();
                 meetupControl.crearMapa(p, e.getSlot());
-            } else if (CrearKitEvent.creandoKit.containsKey(p)) {
+            } else if (CrearKitEvent.creatingKit.containsKey(p)) {
                 e.setCancelled(true);
-                CrearKit ck = CrearKitEvent.creandoKit.get(p);
-                if (ck.accion == CrearKit.Accion.POTIONS) {
+                CrearKit ck = CrearKitEvent.creatingKit.get(p);
+                if (ck.action == CrearKit.Action.POTIONS) {
                     ck.click(i, e.isRightClick());
                 } else {
                     e.setCancelled(false);
                 }
-            } else if (CrearKitEvent.editandoKit.containsKey(p)) {
+            } else if (CrearKitEvent.editingKit.containsKey(p)) {
                 e.setCancelled(true);
-                EditandoKit ck = CrearKitEvent.editandoKit.get(p);
+                EditandoKit ck = CrearKitEvent.editingKit.get(p);
                 if (ck.accion == EditandoKit.Accion.POTIONS) {
                     ck.click(i, e.isRightClick());
                 } else {
@@ -191,8 +191,8 @@ public class GuiEvent implements Listener {
             }, 1L);
         }
         if (e.getInventory().getName().equals(guis.invChooseKit.getName())) {
-            if (CrearKitEvent.esperandoEditandoKit.contains(p)) {
-                CrearKitEvent.esperandoEditandoKit.remove(p);
+            if (CrearKitEvent.waitingEditKit.contains(p)) {
+                CrearKitEvent.waitingEditKit.remove(p);
             } else if (esperandoEliminarKit.contains(p)) {
                 esperandoEliminarKit.remove(p);
             } else if (meetupControl.esperandoMapaMeetup.contains(p)) {

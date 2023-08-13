@@ -65,7 +65,7 @@ public class StatsMeetup {
         if (!total.equals("")) {
             statsString = total;
             cstats.set(p.getUniqueId().toString() + ".m", total);
-            Extra.guardar(Extra.stats, cstats);
+            Extra.save(Extra.stats, cstats);
         }
     }
 

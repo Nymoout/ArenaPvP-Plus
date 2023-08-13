@@ -89,14 +89,14 @@ public class EditandoKit {
     public void setConfig() {
         inv = Bukkit.createInventory(null, cconfig.getInt("creating.gui.rows") * 9, Extra.tc(clang.getString("creating.gui.guiname")));
 
-        itemSpeed = Extra.crearId(cconfig.getInt("creating.gui.speed.id"), cconfig.getInt("creating.gui.speed.data-value"), Extra.tc(clang.getString("creating.gui.speed.name").replaceAll("<level>", "" + levelSpeed)), Extra.tCC(clang.getStringList("creating.gui.speed.lore")), 1);
-        itemStrength = Extra.crearId(cconfig.getInt("creating.gui.strength.id"), cconfig.getInt("creating.gui.strength.data-value"), Extra.tc(clang.getString("creating.gui.strength.name").replaceAll("<level>", "" + levelStrength)), Extra.tCC(clang.getStringList("creating.gui.strength.lore")), 1);
-        itemSlow = Extra.crearId(cconfig.getInt("creating.gui.slowness.id"), cconfig.getInt("creating.gui.slowness.data-value"), Extra.tc(clang.getString("creating.gui.slowness.name").replaceAll("<level>", "" + levelSlow)), Extra.tCC(clang.getStringList("creating.gui.slowness.lore")), 1);
-        itemFire = Extra.crearId(cconfig.getInt("creating.gui.fire_resistance.id"), cconfig.getInt("creating.gui.fire_resistance.data-value"), Extra.tc(clang.getString("creating.gui.fire_resistance.name")), Extra.tCC(clang.getStringList("creating.gui.fire_resistance.lore")), 1);
-        itemCombo = Extra.crearId(cconfig.getInt("creating.gui.hitdelay.id"), cconfig.getInt("creating.gui.hitdelay.data-value"), Extra.tc(clang.getString("creating.gui.hitdelay.name")), Extra.tCC(clang.getStringList("creating.gui.hitdelay.lore")), 1);
-        itemTime = Extra.crearId(cconfig.getInt("creating.gui.matchtime.id"), cconfig.getInt("creating.gui.matchtime.data-value"), Extra.tc(clang.getString("creating.gui.matchtime.name").replaceAll("<time>", Extra.secToMin(time))), Extra.tCC(clang.getStringList("creating.gui.matchtime.lore")), 1);
-        itemReady = Extra.crearId(cconfig.getInt("creating.gui.ready.id"), cconfig.getInt("creating.gui.ready.data-value"), Extra.tc(clang.getString("creating.gui.ready.name")), Extra.tCC(clang.getStringList("creating.gui.ready.lore")), 1);
-        itemNatural = Extra.crearId(cconfig.getInt("creating.gui.naturalregeneration.id"), cconfig.getInt("creating.gui.naturalregeneration.data-value"), Extra.tc(clang.getString("creating.gui.naturalregeneration.name")), Extra.tCC(clang.getStringList("creating.gui.naturalregeneration.lore")), 1);
+        itemSpeed = Extra.createId(cconfig.getInt("creating.gui.speed.id"), cconfig.getInt("creating.gui.speed.data-value"), Extra.tc(clang.getString("creating.gui.speed.name").replaceAll("<level>", "" + levelSpeed)), Extra.tCC(clang.getStringList("creating.gui.speed.lore")), 1);
+        itemStrength = Extra.createId(cconfig.getInt("creating.gui.strength.id"), cconfig.getInt("creating.gui.strength.data-value"), Extra.tc(clang.getString("creating.gui.strength.name").replaceAll("<level>", "" + levelStrength)), Extra.tCC(clang.getStringList("creating.gui.strength.lore")), 1);
+        itemSlow = Extra.createId(cconfig.getInt("creating.gui.slowness.id"), cconfig.getInt("creating.gui.slowness.data-value"), Extra.tc(clang.getString("creating.gui.slowness.name").replaceAll("<level>", "" + levelSlow)), Extra.tCC(clang.getStringList("creating.gui.slowness.lore")), 1);
+        itemFire = Extra.createId(cconfig.getInt("creating.gui.fire_resistance.id"), cconfig.getInt("creating.gui.fire_resistance.data-value"), Extra.tc(clang.getString("creating.gui.fire_resistance.name")), Extra.tCC(clang.getStringList("creating.gui.fire_resistance.lore")), 1);
+        itemCombo = Extra.createId(cconfig.getInt("creating.gui.hitdelay.id"), cconfig.getInt("creating.gui.hitdelay.data-value"), Extra.tc(clang.getString("creating.gui.hitdelay.name")), Extra.tCC(clang.getStringList("creating.gui.hitdelay.lore")), 1);
+        itemTime = Extra.createId(cconfig.getInt("creating.gui.matchtime.id"), cconfig.getInt("creating.gui.matchtime.data-value"), Extra.tc(clang.getString("creating.gui.matchtime.name").replaceAll("<time>", Extra.secToMin(time))), Extra.tCC(clang.getStringList("creating.gui.matchtime.lore")), 1);
+        itemReady = Extra.createId(cconfig.getInt("creating.gui.ready.id"), cconfig.getInt("creating.gui.ready.data-value"), Extra.tc(clang.getString("creating.gui.ready.name")), Extra.tCC(clang.getStringList("creating.gui.ready.lore")), 1);
+        itemNatural = Extra.createId(cconfig.getInt("creating.gui.naturalregeneration.id"), cconfig.getInt("creating.gui.naturalregeneration.data-value"), Extra.tc(clang.getString("creating.gui.naturalregeneration.name")), Extra.tCC(clang.getStringList("creating.gui.naturalregeneration.lore")), 1);
 
         
         if (!potionList.isEmpty()) {
@@ -340,8 +340,8 @@ public class EditandoKit {
         guis.itemKits.put(itemOnGui, kit);
         guis.saveItems();
         p.sendMessage(created.replaceAll("<kit>", kitName));
-        if (CrearKitEvent.editandoKit.containsKey(p)) {
-            CrearKitEvent.editandoKit.remove(p);
+        if (CrearKitEvent.editingKit.containsKey(p)) {
+            CrearKitEvent.editingKit.remove(p);
         }
         hotbars.setMain(p);
 
@@ -376,7 +376,7 @@ public class EditandoKit {
             ckit.set("hotbar", Convertor.itemToBase64(hotbar));
             ckit.set("armor", Convertor.itemToBase64(armor));
 
-            Extra.guardar(elkit, ckit);
+            Extra.save(elkit, ckit);
 
             File hot = new File(plugin.getDataFolder() + File.separator + "hotbar" + File.separator + kitName + ".yml");
             if (hot.exists()) {
@@ -385,7 +385,7 @@ public class EditandoKit {
             hot.createNewFile();
             FileConfiguration chot = YamlConfiguration.loadConfiguration(hot);
             guis.kitsHotbar.put(kit, new FileKits(hot, chot));
-            Extra.guardar(hot, chot);
+            Extra.save(hot, chot);
         } catch (IOException ex) {
             Logger.getLogger(CrearKit.class.getName()).log(Level.SEVERE, null, ex);
         }

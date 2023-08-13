@@ -2,34 +2,37 @@ package com.rmaafs.arenapvp;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import static com.rmaafs.arenapvp.Extra.cstats;
 import static com.rmaafs.arenapvp.Extra.kits;
 import static com.rmaafs.arenapvp.Main.extraLang;
+
 import org.bukkit.entity.Player;
 
 public class Stats {
 
-    HashMap<Kit, Integer> elo = new HashMap<>();
-    HashMap<Kit, Integer> played = new HashMap<>();
-    HashMap<Kit, Integer> wins = new HashMap<>();
-    HashMap<Kit, Rangos> rango = new HashMap<>();
+    public HashMap<Kit, Integer> elo = new HashMap<>();
+    public HashMap<Kit, Integer> played = new HashMap<>();
+    public HashMap<Kit, Integer> wins = new HashMap<>();
+    public HashMap<Kit, Rangos> rango = new HashMap<>();
 
-    int rankeds = 0, unrankeds = 0;
+    public int rankeds = 0;
+    public int unrankeds = 0;
 
-    Player p;
-    String pname;
-    String statsString = "";
+    public Player player;
+    public String playerName;
+    public String statsString = "";
 
     public Stats(Player pp) {
-        p = pp;
-        pname = p.getName();
-        statsString = SQL.getStats(p);
+        player = pp;
+        playerName = player.getName();
+        statsString = SQL.getStats(player);
         descomponer();
-        reloadRankedsUnrankeds();
+        reloadRankedsAndUnrankeds();
     }
 
-    public void reloadRankedsUnrankeds() {
-        if (Extra.regenRankedsUnrankeds && Extra.addPlayerNextDay(p)) {
+    public void reloadRankedsAndUnrankeds() {
+        if (Extra.regenRankedsUnrankeds && Extra.addPlayerNextDay(player)) {
             if (rankeds < extraLang.defaultRankeds) {
                 rankeds = extraLang.defaultRankeds;
             }
@@ -38,7 +41,7 @@ public class Stats {
                 unrankeds = extraLang.defaultUnRankeds;
             }
             for (int i = 100; i > 1; i--) {
-                if (p.hasPermission("apvp.rankeds." + i)) {
+                if (player.hasPermission("apvp.rankeds." + i)) {
                     if (rankeds < i) {
                         rankeds = i;
                     }
@@ -46,7 +49,7 @@ public class Stats {
                 }
             }
             for (int i = 100; i > 1; i--) {
-                if (p.hasPermission("apvp.unrankeds." + i)) {
+                if (player.hasPermission("apvp.unrankeds." + i)) {
                     if (unrankeds < i) {
                         unrankeds = i;
                     }
@@ -57,21 +60,15 @@ public class Stats {
     }
 
     public void removeKit(Kit k) {
-        if (elo.containsKey(k)) {
-            elo.remove(k);
-        }
-        if (played.containsKey(k)) {
-            played.remove(k);
-        }
-        if (wins.containsKey(k)) {
-            wins.remove(k);
-        }
+        elo.remove(k);
+        played.remove(k);
+        wins.remove(k);
         componer();
     }
 
     //BuildUHC,played,wins,elo@
     public void descomponer() {
-        String m[] = statsString.split("@");
+        String[] m = statsString.split("@");
         for (String m1 : m) {
             String[] l = m1.split(",");
             if (l.length == 4) {
@@ -81,9 +78,9 @@ public class Stats {
                 elo.put(k, Integer.valueOf(l[3]));
                 rango.put(k, Extra.setRank(elo.get(k)));
             } else if (l.length == 3) {
-                pname = l[0];
-                rankeds = Integer.valueOf(l[1]);
-                unrankeds = Integer.valueOf(l[2]);
+                playerName = l[0];
+                rankeds = Integer.parseInt(l[1]);
+                unrankeds = Integer.parseInt(l[2]);
             }
         }
     }
@@ -101,12 +98,12 @@ public class Stats {
             }
         }
         if (rankeds != extraLang.defaultRankeds || unrankeds != extraLang.defaultUnRankeds) {
-            total = total + pname + "," + rankeds + "," + unrankeds;
+            total = total + playerName + "," + rankeds + "," + unrankeds;
         }
         if (!total.equals("")) {
             statsString = total;
-            cstats.set(p.getUniqueId().toString() + ".o", total);
-            Extra.guardar(Extra.stats, cstats);
+            cstats.set(player.getUniqueId().toString() + ".o", total);
+            Extra.save(Extra.stats, cstats);
         }
     }
 

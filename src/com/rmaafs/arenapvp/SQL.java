@@ -81,7 +81,7 @@ public class SQL {
         return false;
     }
 
-    public static void guardarStats(Player p, boolean tambienMeetup) {
+    public static void saveStats(Player p, boolean tambienMeetup) {
         if (extraLang.sql) {
             if (isExist(p)) {
                 playerConfig.get(p).stats.componer();

@@ -3,6 +3,7 @@ package com.rmaafs.arenapvp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import static com.rmaafs.arenapvp.Extra.clang;
 import static com.rmaafs.arenapvp.Extra.jugandoUno;
 import static com.rmaafs.arenapvp.Extra.scores;
@@ -19,23 +20,22 @@ import static com.rmaafs.arenapvp.Main.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class Reloj {
+public class Clock {
 
-    public Reloj() {
+    public Clock() {
         setConfig();
     }
 
-    String startingGame;
-    List<String> startingDuelStart;
+    public String startingGame;
+    public List<String> startingDuelStart;
 
     public void setConfig() {
         startingGame = Extra.tc(clang.getString("starting.game"));
-
         startingDuelStart = Extra.tCC(clang.getStringList("starting.duel.start"));
-        tiempo();
+        time();
     }
 
-    private void tiempo() {
+    private void time() {
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin,
                 new Runnable() {
                     int sec = 0;
@@ -50,7 +50,6 @@ public class Reloj {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                             day++;
                             if (day > 600) {
                                 day = -1;
@@ -63,19 +62,19 @@ public class Reloj {
     }
 
     private void segundo() {
-        actualizarScore();
-        preEmpezarDuels();
-        quitarSegundoPartidas();
-        quitarSegundoPreMeetups();
-        quitarSegundoPrePartyEvents();
-        quitarSegundoPrePartyDuels();
+        updateScore();
+        preStartDuel();
+        removeSecondOnGame();
+        removeSecondOnPreMeetups();
+        removeSecondOnPrePartyEvents();
+        removeSecondOnPrePartyDuels();
 
-        quitarSegundoMeetups();
-        quitarSegundoPartyDuel();
-        quitarSegundoPartyEvent();
+        removeSecondOnMeetups();
+        removeSecondOnPartyDuel();
+        removeSecondOnPartyEvent();
     }
 
-    public void actualizarScore() {
+    public void updateScore() {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (scores.containsKey(p)) {
                 scores.get(p).update();
@@ -83,20 +82,30 @@ public class Reloj {
         }
     }
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Reloj.java
     private void preEmpezarDuels() {
         List<Partida> terminadas = new ArrayList<>();
         for (Partida partida : Extra.preEmpezandoUno) {
             if (partida.pretime == 0) {
                 partida.startGame(startingDuelStart);
                 terminadas.add(partida);
+=======
+    private void preStartDuel() {
+        List<Game> ended = new ArrayList<>();
+        for (Game game : Extra.preEmpezandoUno) {
+            if (game.preTime == 0) {
+                game.startGame(startingDuelStart);
+                ended.add(game);
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Clock.java
             } else {
                 partida.starting(startingGame.replaceAll("<time>", "" + partida.pretime));
                 partida.pretime--;
             }
         }
-        Extra.preEmpezandoUno.removeAll(terminadas);
+        Extra.preEmpezandoUno.removeAll(ended);
     }
 
+<<<<<<< Updated upstream:src/com/rmaafs/arenapvp/Reloj.java
     private void quitarSegundoPartidas() {
         List<Partida> editadas = new ArrayList<>();
         for (Map.Entry<Player, Partida> entry : jugandoUno.entrySet()) {
@@ -104,73 +113,82 @@ public class Reloj {
             if (!editadas.contains(partida)) {
                 partida.removerSec();
                 editadas.add(partida);
+=======
+    private void removeSecondOnGame() {
+        List<Game> editing = new ArrayList<>();
+        for (Map.Entry<Player, Game> entry : jugandoUno.entrySet()) {
+            Game game = entry.getValue();
+            if (!editing.contains(game)) {
+                game.removerSec();
+                editing.add(game);
+>>>>>>> Stashed changes:src/com/rmaafs/arenapvp/Clock.java
             }
         }
     }
 
-    private void quitarSegundoMeetups() {
-        List<GameMeetup> editadas = new ArrayList<>();
+    private void removeSecondOnMeetups() {
+        List<GameMeetup> editing = new ArrayList<>();
         for (Map.Entry<Integer, GameMeetup> entry : meetupControl.meetups.entrySet()) {
-            GameMeetup partida = entry.getValue();
-            if (!editadas.contains(partida)) {
-                partida.removerSec();
-                editadas.add(partida);
+            GameMeetup gameMeetup = entry.getValue();
+            if (!editing.contains(gameMeetup)) {
+                gameMeetup.removerSec();
+                editing.add(gameMeetup);
             }
         }
     }
 
-    private void quitarSegundoPartyDuel() {
-        List<DuelGame> editadas = new ArrayList<>();
+    private void removeSecondOnPartyDuel() {
+        List<DuelGame> editing = new ArrayList<>();
         for (Map.Entry<Party, DuelGame> entry : partyControl.partysDuel.entrySet()) {
-            DuelGame partida = entry.getValue();
-            if (!editadas.contains(partida)) {
-                partida.removerSec();
-                editadas.add(partida);
+            DuelGame duelGame = entry.getValue();
+            if (!editing.contains(duelGame)) {
+                duelGame.removerSec();
+                editing.add(duelGame);
             }
         }
     }
 
-    private void quitarSegundoPartyEvent() {
-        List<EventGame> editadas = new ArrayList<>();
+    private void removeSecondOnPartyEvent() {
+        List<EventGame> editing = new ArrayList<>();
         for (Map.Entry<Party, EventGame> entry : partyControl.partysEvents.entrySet()) {
-            EventGame partida = entry.getValue();
-            if (!editadas.contains(partida)) {
-                partida.removerSec();
-                editadas.add(partida);
+            EventGame eventGame = entry.getValue();
+            if (!editing.contains(eventGame)) {
+                eventGame.removerSec();
+                editing.add(eventGame);
             }
         }
     }
 
-    private void quitarSegundoPreMeetups() {
-        List<GameMeetup> empezadas = new ArrayList<>();
+    private void removeSecondOnPreMeetups() {
+        List<GameMeetup> started = new ArrayList<>();
         for (GameMeetup game : meetupControl.meetupStarting) {
             if (game.removePretime()) {
                 game.start();
-                empezadas.add(game);
+                started.add(game);
             }
         }
-        meetupControl.meetupStarting.removeAll(empezadas);
+        meetupControl.meetupStarting.removeAll(started);
     }
 
-    private void quitarSegundoPrePartyEvents() {
-        List<EventGame> empezadas = new ArrayList<>();
+    private void removeSecondOnPrePartyEvents() {
+        List<EventGame> started = new ArrayList<>();
         for (EventGame game : partyControl.startingsEvents) {
             if (game.removePretime()) {
                 game.start();
-                empezadas.add(game);
+                started.add(game);
             }
         }
-        partyControl.startingsEvents.removeAll(empezadas);
+        partyControl.startingsEvents.removeAll(started);
     }
 
-    private void quitarSegundoPrePartyDuels() {
-        List<DuelGame> empezadas = new ArrayList<>();
+    private void removeSecondOnPrePartyDuels() {
+        List<DuelGame> started = new ArrayList<>();
         for (DuelGame game : partyControl.startingPartyDuel) {
             if (game.removePretime()) {
                 game.start();
-                empezadas.add(game);
+                started.add(game);
             }
         }
-        partyControl.startingPartyDuel.removeAll(empezadas);
+        partyControl.startingPartyDuel.removeAll(started);
     }
 }
