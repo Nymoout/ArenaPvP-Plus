@@ -1,6 +1,10 @@
 package com.rmaafs.arenapvp.API;
 
+<<<<<<< Updated upstream
 import com.rmaafs.arenapvp.Mapa;
+=======
+import com.rmaafs.arenapvp.managers.Map;
+>>>>>>> Stashed changes
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -8,11 +12,16 @@ import org.bukkit.event.HandlerList;
 
 public class RankedFinishEvent extends Event {
 
-    Player winner, loser;
-    String kitName, mapName;
-    boolean regen;
-    Location spawn1, spawn2, corner1, corner2;
-    int eloChanged;
+    private final Player winner;
+    private final Player loser;
+    private final String kitName;
+    private final String mapName;
+    private boolean regen;
+    private final Location spawn1;
+    private final Location spawn2;
+    private Location corner1;
+    private Location corner2;
+    private final int eloChanged;
 
     public RankedFinishEvent(Player p1, Player p2, String kn, Mapa m, int elo) {
         winner = p1;
@@ -68,10 +77,6 @@ public class RankedFinishEvent extends Event {
     public int getEloChanged() {
         return eloChanged;
     }
-    
-    
-    
-    
     
     private static final HandlerList HANDLERS = new HandlerList();
     public HandlerList getHandlers() {

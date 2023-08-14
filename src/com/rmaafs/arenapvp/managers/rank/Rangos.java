@@ -1,4 +1,4 @@
-package com.rmaafs.arenapvp;
+package com.rmaafs.arenapvp.managers.rank;
 
 public class Rangos {
 

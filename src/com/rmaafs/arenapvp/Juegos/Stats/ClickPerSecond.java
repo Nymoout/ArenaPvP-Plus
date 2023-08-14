@@ -9,16 +9,16 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ClickPerSecond implements Listener {
 
-    public static HashMap<Player, Integer> cooldown = new HashMap<>();
+    public static HashMap<Player, Integer> coolDown = new HashMap<>();
     
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
             Player p = e.getPlayer();
-            if (!cooldown.containsKey(p)) {
-                cooldown.put(p, 1);
+            if (!coolDown.containsKey(p)) {
+                coolDown.put(p, 1);
             } else {
-                cooldown.put(p, cooldown.get(p) + 1);
+                coolDown.put(p, coolDown.get(p) + 1);
             }
         }
     }

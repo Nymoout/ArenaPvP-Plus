@@ -1,15 +1,20 @@
 package com.rmaafs.arenapvp.Juegos.Duel;
 
-import com.rmaafs.arenapvp.Extra;
-import static com.rmaafs.arenapvp.Extra.cconfig;
-import static com.rmaafs.arenapvp.Extra.clang;
-import static com.rmaafs.arenapvp.Extra.jugandoUno;
-import static com.rmaafs.arenapvp.Extra.playerConfig;
-import static com.rmaafs.arenapvp.Main.*;
+import com.rmaafs.arenapvp.util.Extra;
+import static com.rmaafs.arenapvp.util.Extra.cconfig;
+import static com.rmaafs.arenapvp.util.Extra.clang;
+import static com.rmaafs.arenapvp.util.Extra.jugandoUno;
+import static com.rmaafs.arenapvp.util.Extra.playerConfig;
+import static com.rmaafs.arenapvp.ArenaPvP.*;
 
+<<<<<<< Updated upstream
 import com.rmaafs.arenapvp.PlayerConfig;
 import com.rmaafs.arenapvp.Score;
 import org.bukkit.Bukkit;
+=======
+import com.rmaafs.arenapvp.managers.config.PlayerConfig;
+import com.rmaafs.arenapvp.managers.scoreboard.Score;
+>>>>>>> Stashed changes
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;

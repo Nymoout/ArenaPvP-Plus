@@ -1,6 +1,6 @@
 package com.rmaafs.arenapvp.Juegos.Duel;
 
-import com.rmaafs.arenapvp.Kit;
+import com.rmaafs.arenapvp.managers.Kit;
 import org.bukkit.entity.Player;
 
 public class PreDuelConfig {

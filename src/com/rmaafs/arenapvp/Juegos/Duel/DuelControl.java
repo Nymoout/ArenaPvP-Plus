@@ -3,6 +3,7 @@ package com.rmaafs.arenapvp.Juegos.Duel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+<<<<<<< Updated upstream
 import com.rmaafs.arenapvp.Extra;
 import static com.rmaafs.arenapvp.Extra.CHICKEN_EGG_POP;
 import static com.rmaafs.arenapvp.Extra.HORSE_ARMOR;
@@ -20,6 +21,25 @@ import static com.rmaafs.arenapvp.Main.extraLang;
 import static com.rmaafs.arenapvp.Main.guis;
 import static com.rmaafs.arenapvp.Main.hotbars;
 import com.rmaafs.arenapvp.Partida;
+=======
+import com.rmaafs.arenapvp.util.Extra;
+import static com.rmaafs.arenapvp.util.Extra.CHICKEN_EGG_POP;
+import static com.rmaafs.arenapvp.util.Extra.HORSE_ARMOR;
+import static com.rmaafs.arenapvp.util.Extra.NOTE_BASS;
+import static com.rmaafs.arenapvp.util.Extra.ORB_PICKUP;
+import static com.rmaafs.arenapvp.util.Extra.VILLAGER_NO;
+import static com.rmaafs.arenapvp.util.Extra.cconfig;
+import static com.rmaafs.arenapvp.util.Extra.clang;
+import static com.rmaafs.arenapvp.util.Extra.jugandoUno;
+import static com.rmaafs.arenapvp.util.Extra.mapLibres;
+import static com.rmaafs.arenapvp.util.Extra.playerConfig;
+import static com.rmaafs.arenapvp.util.Extra.preEmpezandoUno;
+import com.rmaafs.arenapvp.managers.Kit;
+import static com.rmaafs.arenapvp.ArenaPvP.extraLang;
+import static com.rmaafs.arenapvp.ArenaPvP.guis;
+import static com.rmaafs.arenapvp.ArenaPvP.hotbars;
+import com.rmaafs.arenapvp.game.Game;
+>>>>>>> Stashed changes
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

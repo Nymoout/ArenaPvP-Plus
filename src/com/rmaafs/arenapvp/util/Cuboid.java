@@ -1,4 +1,4 @@
-package com.rmaafs.arenapvp;
+package com.rmaafs.arenapvp.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

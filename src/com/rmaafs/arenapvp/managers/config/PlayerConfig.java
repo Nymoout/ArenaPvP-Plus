@@ -1,21 +1,25 @@
-package com.rmaafs.arenapvp;
+package com.rmaafs.arenapvp.managers.config;
 
 import java.util.HashMap;
 
 import com.rmaafs.arenapvp.Hotbars.SavedHotbars;
+import com.rmaafs.arenapvp.managers.data.SQL;
+import com.rmaafs.arenapvp.managers.data.Stats;
+import com.rmaafs.arenapvp.managers.data.StatsMeetup;
+import com.rmaafs.arenapvp.managers.Kit;
 import org.bukkit.entity.Player;
 
 public class PlayerConfig {
 
-    HashMap<Kit, SavedHotbars> hotbars = new HashMap<>();
-    Stats stats;
-    StatsMeetup statsMeetup;
-    Player p;
+    public HashMap<Kit, SavedHotbars> hotbars = new HashMap<>();
+    public Stats stats;
+    public StatsMeetup statsMeetup;
+    public Player player;
 
-    public PlayerConfig(Player pp) {
-        p = pp;
-        stats = new Stats(p);
-        statsMeetup = new StatsMeetup(p);
+    public PlayerConfig(Player player) {
+        this.player = player;
+        stats = new Stats(this.player);
+        statsMeetup = new StatsMeetup(this.player);
     }
     
     public void removeKit(Kit k){
@@ -27,17 +31,17 @@ public class PlayerConfig {
 
     public SavedHotbars getHotbars(Kit k) {
         if (!hotbars.containsKey(k)) {
-            hotbars.put(k, new SavedHotbars(p, k));
+            hotbars.put(k, new SavedHotbars(player, k));
         }
         return hotbars.get(k);
     }
 
     public void putHotbar(int i, Kit k) {
-        p.getInventory().setContents(getHotbars(k).getHotbar(i));
+        player.getInventory().setContents(getHotbars(k).getHotbar(i));
     }
 
     public void putArmor(Kit k) {
-        p.getInventory().setArmorContents(k.armor);
+        player.getInventory().setArmorContents(k.armor);
     }
 
     public void putInv(int i, Kit k) {
@@ -48,7 +52,7 @@ public class PlayerConfig {
     public void saveStats() {
         stats.componer();
         statsMeetup.componer();
-        SQL.guardarStats(p, true);
+        SQL.guardarStats(player, true);
     }
     
     //---------------------

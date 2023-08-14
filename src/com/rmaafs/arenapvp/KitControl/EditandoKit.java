@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.rmaafs.arenapvp.Convertor;
-import com.rmaafs.arenapvp.Extra;
-import static com.rmaafs.arenapvp.Extra.cconfig;
-import static com.rmaafs.arenapvp.Extra.clang;
-import static com.rmaafs.arenapvp.Extra.kits;
-import com.rmaafs.arenapvp.FileKits;
-import com.rmaafs.arenapvp.Kit;
+import com.rmaafs.arenapvp.util.Convertor;
+import com.rmaafs.arenapvp.util.Extra;
+import static com.rmaafs.arenapvp.util.Extra.cconfig;
+import static com.rmaafs.arenapvp.util.Extra.clang;
+import static com.rmaafs.arenapvp.util.Extra.kits;
+import com.rmaafs.arenapvp.util.FileKits;
+import com.rmaafs.arenapvp.managers.Kit;
 
-import static com.rmaafs.arenapvp.Main.guis;
-import static com.rmaafs.arenapvp.Main.hotbars;
-import static com.rmaafs.arenapvp.Main.plugin;
+import static com.rmaafs.arenapvp.ArenaPvP.guis;
+import static com.rmaafs.arenapvp.ArenaPvP.hotbars;
+import static com.rmaafs.arenapvp.ArenaPvP.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -340,8 +340,8 @@ public class EditandoKit {
         guis.itemKits.put(itemOnGui, kit);
         guis.saveItems();
         p.sendMessage(created.replaceAll("<kit>", kitName));
-        if (CrearKitEvent.editandoKit.containsKey(p)) {
-            CrearKitEvent.editandoKit.remove(p);
+        if (CreateKitEvent.editingKit.containsKey(p)) {
+            CreateKitEvent.editingKit.remove(p);
         }
         hotbars.setMain(p);
 
@@ -387,7 +387,7 @@ public class EditandoKit {
             guis.kitsHotbar.put(kit, new FileKits(hot, chot));
             Extra.guardar(hot, chot);
         } catch (IOException ex) {
-            Logger.getLogger(CrearKit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateKit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

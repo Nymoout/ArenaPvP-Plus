@@ -1,10 +1,13 @@
-package com.rmaafs.arenapvp;
+package com.rmaafs.arenapvp.commands;
 
 import java.io.File;
 
 import com.rmaafs.arenapvp.GUIS.GuiEvent;
-import com.rmaafs.arenapvp.KitControl.CrearKit;
-import com.rmaafs.arenapvp.KitControl.CrearKitEvent;
+import com.rmaafs.arenapvp.KitControl.CreateKit;
+import com.rmaafs.arenapvp.KitControl.CreateKitEvent;
+import com.rmaafs.arenapvp.ArenaPvP;
+import com.rmaafs.arenapvp.managers.data.Stats;
+import com.rmaafs.arenapvp.util.Extra;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,14 +42,14 @@ public class Command implements CommandExecutor {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("createkit")) {
                     if (Extra.isPerm(p, "apvp.create.kit")) {
-                        CrearKitEvent.creandoKit.put(p, new CrearKit(p));
+                        CreateKitEvent.creatingKit.put(p, new CreateKit(p));
                     }
                 } else if (args[0].equalsIgnoreCase("createmap")) {
                     if (Extra.isPerm(p, "apvp.create.map")) {
-                        if (!Main.guis.escojiendoCrearMapa.contains(p)) {
-                            Main.guis.escojiendoCrearMapa.add(p);
+                        if (!ArenaPvP.guis.escojiendoCrearMapa.contains(p)) {
+                            ArenaPvP.guis.escojiendoCrearMapa.add(p);
                         }
-                        p.openInventory(Main.guis.chooseKit);
+                        p.openInventory(ArenaPvP.guis.chooseKit);
                     }
                 } else if (args[0].equalsIgnoreCase("setspawn")) {
                     if (Extra.isPerm(p, "apvp.setspawn")) {
@@ -60,31 +63,31 @@ public class Command implements CommandExecutor {
                     if (Extra.isPerm(p, "apvp.command.tohead")) {
                         if (p.getItemInHand().getType().equals(Material.GOLDEN_APPLE)) {
                             ItemMeta meta = p.getItemInHand().getItemMeta();
-                            meta.setDisplayName(Main.extraLang.goldenname);
+                            meta.setDisplayName(ArenaPvP.extraLang.goldenname);
                             p.getItemInHand().setItemMeta(meta);
                             Extra.sonido(p, Extra.BURP);
                         }
                     }
                 } else if (args[0].equalsIgnoreCase("editkit")) {
                     if (Extra.isPerm(p, "apvp.create.editkit")) {
-                        if (!CrearKitEvent.esperandoEditandoKit.contains(p)) {
-                            CrearKitEvent.esperandoEditandoKit.add(p);
+                        if (!CreateKitEvent.waitingToEditKit.contains(p)) {
+                            CreateKitEvent.waitingToEditKit.add(p);
                         }
-                        p.openInventory(Main.guis.chooseKit);
+                        p.openInventory(ArenaPvP.guis.chooseKit);
                     }
                 } else if (args[0].equalsIgnoreCase("deletekit")) {
                     if (Extra.isPerm(p, "apvp.create.deletekit")) {
                         if (!GuiEvent.esperandoEliminarKit.contains(p)) {
                             GuiEvent.esperandoEliminarKit.add(p);
                         }
-                        p.openInventory(Main.guis.chooseKit);
+                        p.openInventory(ArenaPvP.guis.chooseKit);
                     }
                 } else if (args[0].equalsIgnoreCase("createmapmeetup")) {
                     if (Extra.isPerm(p, "apvp.create.map")) {
-                        if (!Main.meetupControl.esperandoMapaMeetup.contains(p)) {
-                            Main.meetupControl.esperandoMapaMeetup.add(p);
+                        if (!ArenaPvP.meetupControl.esperandoMapaMeetup.contains(p)) {
+                            ArenaPvP.meetupControl.esperandoMapaMeetup.add(p);
                         }
-                        p.openInventory(Main.guis.chooseKit);
+                        p.openInventory(ArenaPvP.guis.chooseKit);
                     }
                 } else if (args[0].equalsIgnoreCase("resetrankeds")) {
                     if (Extra.isPerm(p, "apvp.command.resetrankeds")) {
@@ -132,13 +135,13 @@ public class Command implements CommandExecutor {
                 if (args.length == 1) {
                     if (!args[0].equalsIgnoreCase(p.getName())) {
                         if (Extra.isPerm(p, "apvp.duel.create")) {
-                            Main.duelControl.createDuel(p, args[0]);
+                            ArenaPvP.duelControl.createDuel(p, args[0]);
                         }
                     }
                 } else if (args.length == 2) {
                     if (args[0].equalsIgnoreCase("accept")) {
                         if (Extra.isPerm(p, "apvp.duel.accept")) {
-                            Main.duelControl.aceptarDuel(p, args[1]);
+                            ArenaPvP.duelControl.aceptarDuel(p, args[1]);
                         }
                     }
                 } else {
@@ -154,12 +157,12 @@ public class Command implements CommandExecutor {
                     if (Extra.isPerm(p, "apvp.command.stats.other")) {
                         Player t = Bukkit.getPlayer(args[0]);
                         if (Extra.isExist(t, p)) {
-                            Main.guis.openPlayerStats(t, p);
+                            ArenaPvP.guis.openPlayerStats(t, p);
                         }
                     }
                 } else if (args.length == 0) {
                     if (Extra.isPerm(p, "apvp.command.stats")) {
-                        Main.guis.openPlayerStats(p, p);
+                        ArenaPvP.guis.openPlayerStats(p, p);
                     }
                 } else {
                     sendStats(p);
@@ -167,36 +170,36 @@ public class Command implements CommandExecutor {
             }
         }
 
-        if (cmd.getName().equalsIgnoreCase("party")) {
+        if (cmd.getName().equalsIgnoreCase("aparty")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (args.length == 2) {
                     if (args[0].equalsIgnoreCase("invite")) {
                         if (Extra.isPerm(p, "apvp.party.invite")) {
-                            Main.partyControl.partyInvite(p, args[1]);
+                            ArenaPvP.partyControl.partyInvite(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("accept")) {
                         if (Extra.isPerm(p, "apvp.party.accept")) {
-                            Main.partyControl.aceptarInvitacion(p, args[1]);
+                            ArenaPvP.partyControl.aceptarInvitacion(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("kick")) {
                         if (Extra.isPerm(p, "apvp.party.kick")) {
-                            Main.partyControl.partyKick(p, args[1]);
+                            ArenaPvP.partyControl.partyKick(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("promote")) {
                         if (Extra.isPerm(p, "apvp.party.promote")) {
-                            Main.partyControl.partyPromote(p, args[1]);
+                            ArenaPvP.partyControl.partyPromote(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("duelaccept")) {
                         if (Extra.isPerm(p, "apvp.party.duelaccept")) {
-                            Main.partyControl.aceptarDuel(p, args[1]);
+                            ArenaPvP.partyControl.aceptarDuel(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("acceptplayer")) {
                         if (Extra.isPerm(p, "apvp.party.acceptplayer")) {
-                            Main.partyControl.aceptarPlayerAbierta(p, args[1]);
+                            ArenaPvP.partyControl.aceptarPlayerAbierta(p, args[1]);
                         }
                     } else if (args[0].equalsIgnoreCase("acceptplayer")) {
-                        Main.partyControl.partyLeave(p);
+                        ArenaPvP.partyControl.partyLeave(p);
                     } else {
                         sendParty(p);
                     }
@@ -206,7 +209,7 @@ public class Command implements CommandExecutor {
             }
         }
 
-        if (cmd.getName().equalsIgnoreCase("pc")) {
+        if (cmd.getName().equalsIgnoreCase("apc")) {
             if (sender instanceof Player) {
                 if (args.length >= 1) {
                     Player p = (Player) sender;
@@ -215,7 +218,7 @@ public class Command implements CommandExecutor {
                         for (int i = 1; i < args.length; i++) {
                             s = s + " " + args[i];
                         }
-                        Main.partyControl.partyChat(p, s);
+                        ArenaPvP.partyControl.partyChat(p, s);
                     }
                 } else {
                     sendParty((Player) sender);
@@ -241,7 +244,7 @@ public class Command implements CommandExecutor {
                 Player p = (Player) sender;
                 if (Extra.isPerm(p, "apvp.spectate")) {
                     if (args.length == 1) {
-                        Main.specControl.spec(p, args[0]);
+                        ArenaPvP.specControl.spec(p, args[0]);
                     } else {
                         sendSpec(p);
                     }
@@ -253,7 +256,7 @@ public class Command implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 if (Extra.isPerm(p, "apvp.viewlastinventory")) {
-                    Main.duelControl.abrirUltimoInv(p, args[0]);
+                    ArenaPvP.duelControl.abrirUltimoInv(p, args[0]);
                 }
             }
         }
@@ -262,13 +265,13 @@ public class Command implements CommandExecutor {
 
     private void shareMap(Player p, String kit, String toKit) {
         if (Extra.kits.containsKey(kit) && Extra.kits.containsKey(toKit)) {
-            File f = new File(Main.plugin.getDataFolder() + File.separator + "maps");
+            File f = new File(ArenaPvP.plugin.getDataFolder() + File.separator + "maps");
             if (!f.exists()) {
                 f.mkdir();
             }
-            File elkit = new File(Main.plugin.getDataFolder() + File.separator + "maps" + File.separator + kit + ".yml");
+            File elkit = new File(ArenaPvP.plugin.getDataFolder() + File.separator + "maps" + File.separator + kit + ".yml");
             if (elkit.exists()) {
-                File toFile = new File(Main.plugin.getDataFolder() + File.separator + "kits" + File.separator + toKit + ".yml");
+                File toFile = new File(ArenaPvP.plugin.getDataFolder() + File.separator + "kits" + File.separator + toKit + ".yml");
                 FileConfiguration ckit = YamlConfiguration.loadConfiguration(toFile);
                 ckit.set("mapsharing", kit);
                 Extra.guardar(toFile, ckit);
@@ -291,11 +294,11 @@ public class Command implements CommandExecutor {
         String path = "spawn.";
         if (hotbar) {
             path = "hotbar.";
-            Main.extraLang.spawnHotbar = p.getLocation();
-            p.sendMessage(Main.extraLang.spawnHotbarSet);
+            ArenaPvP.extraLang.spawnHotbar = p.getLocation();
+            p.sendMessage(ArenaPvP.extraLang.spawnHotbarSet);
         } else {
-            Main.extraLang.spawn = p.getLocation();
-            p.sendMessage(Main.extraLang.spawnSet);
+            ArenaPvP.extraLang.spawn = p.getLocation();
+            p.sendMessage(ArenaPvP.extraLang.spawnSet);
         }
         Extra.cspawns.set(path + ".w", loc.getWorld().getName());
         Extra.cspawns.set(path + ".x", loc.getX());
@@ -340,13 +343,13 @@ public class Command implements CommandExecutor {
         if (Extra.isExist(t, p) && !p.getName().equalsIgnoreCase(o)) {
             if (Extra.noHaDadoRankeds(p)) {
                 int r = Extra.playerConfig.get(t).stats.getRankeds();
-                Extra.playerConfig.get(t).stats.setRankeds(r + Main.extraLang.giftrankeds);
-                p.sendMessage(Main.extraLang.gived.replaceAll("<player>", t.getName()).replaceAll("<number>", "" + Main.extraLang.giftrankeds));
-                t.sendMessage(Main.extraLang.yougived.replaceAll("<player>", p.getName()).replaceAll("<number>", "" + Main.extraLang.giftrankeds));
+                Extra.playerConfig.get(t).stats.setRankeds(r + ArenaPvP.extraLang.giftrankeds);
+                p.sendMessage(ArenaPvP.extraLang.gived.replaceAll("<player>", t.getName()).replaceAll("<number>", "" + ArenaPvP.extraLang.giftrankeds));
+                t.sendMessage(ArenaPvP.extraLang.yougived.replaceAll("<player>", p.getName()).replaceAll("<number>", "" + ArenaPvP.extraLang.giftrankeds));
                 Extra.sonido(p, Extra.LEVEL_UP);
                 Extra.sonido(t, Extra.LEVEL_UP);
             } else {
-                p.sendMessage(Main.extraLang.alreadygift);
+                p.sendMessage(ArenaPvP.extraLang.alreadygift);
             }
         }
     }

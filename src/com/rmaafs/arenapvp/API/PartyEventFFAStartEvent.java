@@ -2,31 +2,58 @@ package com.rmaafs.arenapvp.API;
 
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< Updated upstream
 import com.rmaafs.arenapvp.Mapa;
+=======
+
+import com.rmaafs.arenapvp.managers.Map;
+>>>>>>> Stashed changes
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PartyEventFFAStartEvent extends Event{
+public class PartyEventFFAStartEvent extends Event {
 
+<<<<<<< Updated upstream
     Player owner;
     String kitName, mapName;
     List<Player> players, spectators;
     Location spawn1, spawn2, corner1, corner2;
     
     public PartyEventFFAStartEvent(Player ow, List<Player> pla, String kit, Mapa mapa){
+=======
+    private final Player owner;
+    private final String kitName;
+    private final String mapName;
+    private final List<Player> players;
+    private final List<Player> spectators;
+    private final Location spawn1;
+    private final Location spawn2;
+    private Location corner1;
+    private Location corner2;
+
+    public PartyEventFFAStartEvent(Player ow, List<Player> pla, String kit, Map map) {
+>>>>>>> Stashed changes
         players = new ArrayList<>();
         owner = ow;
         kitName = kit;
         mapName = mapa.getName();
         players.addAll(pla);
         spectators = new ArrayList<>();
+<<<<<<< Updated upstream
         spawn1 = mapa.getSpawn1();
         spawn2 = mapa.getSpawn2();
         if (mapa.getCorner1() != null){
             corner1 = mapa.getCorner1();
             corner2 = mapa.getCorner2();
+=======
+        spawn1 = map.getSpawn1();
+        spawn2 = map.getSpawn2();
+        if (map.getCorner1() != null) {
+            corner1 = map.getCorner1();
+            corner2 = map.getCorner2();
+>>>>>>> Stashed changes
         }
     }
 
@@ -69,13 +96,13 @@ public class PartyEventFFAStartEvent extends Event{
     public static HandlerList getHANDLERS() {
         return HANDLERS;
     }
-    
-    
-    
+
     private static final HandlerList HANDLERS = new HandlerList();
+
     public HandlerList getHandlers() {
         return HANDLERS;
     }
+
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

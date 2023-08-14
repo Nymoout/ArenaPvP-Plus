@@ -1,10 +1,14 @@
-package com.rmaafs.arenapvp;
+package com.rmaafs.arenapvp.managers.data;
 
 import java.util.HashMap;
 import java.util.Map;
-import static com.rmaafs.arenapvp.Extra.cstats;
-import static com.rmaafs.arenapvp.Extra.kits;
-import static com.rmaafs.arenapvp.Main.extraLang;
+import static com.rmaafs.arenapvp.util.Extra.cstats;
+import static com.rmaafs.arenapvp.util.Extra.kits;
+import static com.rmaafs.arenapvp.ArenaPvP.extraLang;
+
+import com.rmaafs.arenapvp.managers.rank.Rangos;
+import com.rmaafs.arenapvp.managers.Kit;
+import com.rmaafs.arenapvp.util.Extra;
 import org.bukkit.entity.Player;
 
 public class Stats {

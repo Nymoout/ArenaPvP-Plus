@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static com.rmaafs.arenapvp.Extra.cspawns;
-import static com.rmaafs.arenapvp.Extra.cstats;
-import static com.rmaafs.arenapvp.Extra.kits;
-import static com.rmaafs.arenapvp.Extra.mapLibres;
-import static com.rmaafs.arenapvp.Extra.mapMeetupLibres;
-import static com.rmaafs.arenapvp.Extra.mapMeetupOcupadas;
-import static com.rmaafs.arenapvp.Extra.mapOcupadas;
-import static com.rmaafs.arenapvp.Extra.playerConfig;
+import static com.rmaafs.arenapvp.util.Extra.cspawns;
+import static com.rmaafs.arenapvp.util.Extra.cstats;
+import static com.rmaafs.arenapvp.util.Extra.kits;
+import static com.rmaafs.arenapvp.util.Extra.mapLibres;
+import static com.rmaafs.arenapvp.util.Extra.mapMeetupLibres;
+import static com.rmaafs.arenapvp.util.Extra.mapMeetupOcupadas;
+import static com.rmaafs.arenapvp.util.Extra.mapOcupadas;
+import static com.rmaafs.arenapvp.util.Extra.playerConfig;
 
 import com.rmaafs.arenapvp.GUIS.GuiEvent;
 import com.rmaafs.arenapvp.GUIS.KitGui;
@@ -28,9 +28,22 @@ import com.rmaafs.arenapvp.Juegos.Duel.WorldEvent;
 import com.rmaafs.arenapvp.Juegos.Meetup.MeetupControl;
 import com.rmaafs.arenapvp.Juegos.Meetup.PreCommandEvent;
 import com.rmaafs.arenapvp.Juegos.Stats.ClickPerSecond;
-import com.rmaafs.arenapvp.KitControl.CrearKitEvent;
+import com.rmaafs.arenapvp.KitControl.CreateKitEvent;
 import com.rmaafs.arenapvp.MapControl.CrearMapaEvent;
 import com.rmaafs.arenapvp.Party.PartyControl;
+import com.rmaafs.arenapvp.commands.Command;
+import com.rmaafs.arenapvp.managers.Kit;
+import com.rmaafs.arenapvp.managers.Map;
+import com.rmaafs.arenapvp.managers.MapaMeetup;
+import com.rmaafs.arenapvp.managers.config.Lang;
+import com.rmaafs.arenapvp.managers.config.PlayerConfig;
+import com.rmaafs.arenapvp.managers.data.MySQL;
+import com.rmaafs.arenapvp.managers.scoreboard.Score;
+import com.rmaafs.arenapvp.managers.spectator.SpecControl;
+import com.rmaafs.arenapvp.util.Convertor;
+import com.rmaafs.arenapvp.util.Extra;
+import com.rmaafs.arenapvp.util.FileKits;
+import com.rmaafs.arenapvp.util.Reloj;
 import com.rmaafs.arenapvp.versions.Packets;
 import com.rmaafs.arenapvp.versions.v1_7_R4;
 import com.rmaafs.arenapvp.versions.v1_X;
@@ -46,11 +59,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Main extends JavaPlugin implements Listener {
+public class ArenaPvP extends JavaPlugin implements Listener {
 
     //Todo listo al iniciar, leave de la party.
     public static Packets ver;
-    public static Main plugin;
+    public static ArenaPvP plugin;
     public static KitGui guis;
     public static Hotbars hotbars;
     public static DuelControl duelControl;
@@ -84,7 +97,7 @@ public class Main extends JavaPlugin implements Listener {
             cstats.save(stats);
             cspawns.save(spawns);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ArenaPvP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,7 +144,7 @@ public class Main extends JavaPlugin implements Listener {
         getCommand("duel").setExecutor(new Command());
         getCommand("stats").setExecutor(new Command());
         getCommand("uinventario").setExecutor(new Command());
-        getCommand("party").setExecutor(new Command());
+        getCommand("aparty").setExecutor(new Command());
         getCommand("pc").setExecutor(new Command());
         getCommand("giftrankeds").setExecutor(new Command());
         getCommand("spec").setExecutor(new Command());
@@ -165,7 +178,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new CrearKitEvent(), this);
+        getServer().getPluginManager().registerEvents(new CreateKitEvent(), this);
         getServer().getPluginManager().registerEvents(new HotbarEvent(), this);
         getServer().getPluginManager().registerEvents(new CrearMapaEvent(), this);
         getServer().getPluginManager().registerEvents(new GuiEvent(), this);
@@ -279,7 +292,7 @@ public class Main extends JavaPlugin implements Listener {
                             loadMaps(k);
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ArenaPvP.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rmaafs.arenapvp.Juegos.Duel.PreDuelConfig;
+<<<<<<< Updated upstream
 import com.rmaafs.arenapvp.Extra;
 import static com.rmaafs.arenapvp.Extra.CHEST_CLOSE;
 import static com.rmaafs.arenapvp.Extra.HORSE_ARMOR;
@@ -28,6 +29,28 @@ import static com.rmaafs.arenapvp.Main.guis;
 import static com.rmaafs.arenapvp.Main.meetupControl;
 import static com.rmaafs.arenapvp.Main.plugin;
 import com.rmaafs.arenapvp.Partida;
+=======
+import com.rmaafs.arenapvp.util.Extra;
+import static com.rmaafs.arenapvp.util.Extra.CHEST_CLOSE;
+import static com.rmaafs.arenapvp.util.Extra.HORSE_ARMOR;
+import static com.rmaafs.arenapvp.util.Extra.VILLAGER_YES;
+import static com.rmaafs.arenapvp.util.Extra.cconfig;
+import static com.rmaafs.arenapvp.util.Extra.clang;
+import static com.rmaafs.arenapvp.util.Extra.jugandoUno;
+import static com.rmaafs.arenapvp.util.Extra.kits;
+import static com.rmaafs.arenapvp.util.Extra.mapLibres;
+import static com.rmaafs.arenapvp.util.Extra.mapMeetupLibres;
+import static com.rmaafs.arenapvp.util.Extra.mapMeetupOcupadas;
+import static com.rmaafs.arenapvp.util.Extra.mapOcupadas;
+import static com.rmaafs.arenapvp.util.Extra.playerConfig;
+import com.rmaafs.arenapvp.util.FileKits;
+import com.rmaafs.arenapvp.managers.Kit;
+import static com.rmaafs.arenapvp.ArenaPvP.duelControl;
+import static com.rmaafs.arenapvp.ArenaPvP.guis;
+import static com.rmaafs.arenapvp.ArenaPvP.meetupControl;
+import static com.rmaafs.arenapvp.ArenaPvP.plugin;
+import com.rmaafs.arenapvp.game.Game;
+>>>>>>> Stashed changes
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
