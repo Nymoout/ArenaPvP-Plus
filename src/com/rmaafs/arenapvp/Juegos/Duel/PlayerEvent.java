@@ -1,17 +1,9 @@
 package com.rmaafs.arenapvp.Juegos.Duel;
 
 import com.rmaafs.arenapvp.API.PlayerTouchWaterEvent;
-import com.rmaafs.arenapvp.game.Game;
-import com.rmaafs.arenapvp.util.Extra;
-
-import static com.rmaafs.arenapvp.util.Extra.cconfig;
-import static com.rmaafs.arenapvp.util.Extra.clang;
-import static com.rmaafs.arenapvp.util.Extra.jugandoUno;
-import static com.rmaafs.arenapvp.util.Extra.playerConfig;
-import static com.rmaafs.arenapvp.ArenaPvP.*;
-
 import com.rmaafs.arenapvp.manager.config.PlayerConfig;
 import com.rmaafs.arenapvp.manager.scoreboard.Score;
+import com.rmaafs.arenapvp.util.Extra;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -20,10 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -32,16 +22,20 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
+import static com.rmaafs.arenapvp.ArenaPvP.*;
+import static com.rmaafs.arenapvp.util.Extra.*;
+import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.VOID;
+
 public class PlayerEvent implements Listener {
 
     public static Map<Player, Player> lastAttackers = new HashMap<>();
-    private Set<Player> playersDeadInWater = new HashSet<>();
+    private final Set<Player> playersDeadInWater = new HashSet<>();
     boolean teleportOnJoin;
-    String youcantcraft;
+    String youCantCraft;
 
     public PlayerEvent() {
         teleportOnJoin = cconfig.getBoolean("teleportonjoin");
-        youcantcraft = Extra.tc(clang.getString("playing.youcantcraft"));
+        youCantCraft = Extra.tc(clang.getString("playing.youcantcraft"));
     }
 
     @EventHandler
@@ -61,10 +55,27 @@ public class PlayerEvent implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
-            Player damaged = (Player) event.getEntity();
-            Player attacker = (Player) event.getDamager();
+    void on(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+        if (Objects.equals(e.getEntity().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            Player player = (Player) e.getEntity();
+            e.setCancelled(true);
+            if (e.getCause() == VOID) {
+                player.teleport(player.getWorld().getSpawnLocation());
+            }
+        }
+    }
+
+
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+        if (Objects.equals(e.getEntity().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            Player damaged = (Player) e.getEntity();
+            Player attacker = (Player) e.getDamager();
             lastAttackers.put(damaged, attacker);
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 lastAttackers.remove(damaged);
@@ -73,9 +84,9 @@ public class PlayerEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        if (!playersDeadInWater.contains(player) && event.getTo().getBlock().getType() == Material.STATIONARY_WATER) {
+    public void onPlayerMove(PlayerMoveEvent e) {
+        Player player = e.getPlayer();
+        if (!playersDeadInWater.contains(player) && e.getTo().getBlock().getType() == Material.STATIONARY_WATER) {
             playersDeadInWater.add(player);
             Bukkit.getServer().getPluginManager().callEvent(new PlayerTouchWaterEvent(player));
         }
@@ -100,6 +111,9 @@ public class PlayerEvent implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
+        if (Objects.equals(e.getEntity().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
+        }
         if (e.getDamager() instanceof Player) {
             Player p = (Player) e.getDamager();
             if (specControl.mirando.containsKey(p)) {
@@ -128,6 +142,9 @@ public class PlayerEvent implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
+        if (Objects.equals(e.getPlayer().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
+        }
         if (specControl.mirando.containsKey(p)) {
             e.setCancelled(true);
         } else if (jugandoUno.containsKey(p)) {
@@ -143,7 +160,10 @@ public class PlayerEvent implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
-        Player p = (Player) e.getPlayer();
+        Player p = e.getPlayer();
+        if (Objects.equals(e.getPlayer().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
+        }
         if (!p.spigot().getCollidesWithEntities()) {
             e.setCancelled(true);
         } else {
@@ -163,6 +183,9 @@ public class PlayerEvent implements Listener {
 
     @EventHandler
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
+        if (Objects.equals(e.getPlayer().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
+        }
         if (e.getBucket().toString().contains("LAVA") || e.getBucket().toString().contains("WATER")) {
             Player p = e.getPlayer();
             if (specControl.mirando.containsKey(p)) {
@@ -237,10 +260,17 @@ public class PlayerEvent implements Listener {
                 if (jugandoUno.containsKey(p) || hotbars.editingSlotHotbar.containsKey(p) || meetupControl.meetupsPlaying.containsKey(p) || partyControl.partyHash.containsKey(p)) {
                     e.getInventory().setResult(new ItemStack(Material.AIR));
                     p.closeInventory();
-                    p.sendMessage(youcantcraft);
+                    p.sendMessage(youCantCraft);
                     return;
                 }
             }
+        }
+    }
+
+    @EventHandler
+    void on(FoodLevelChangeEvent e) {
+        if (Objects.equals(e.getEntity().getWorld().getName(), extraLang.spawn.getWorld().getName())){
+            e.setCancelled(true);
         }
     }
 
